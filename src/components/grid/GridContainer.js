@@ -3,6 +3,7 @@ import React from 'react';
 import './grid.css'
 import axios from 'axios';
 import ReactPlayer from 'react-player'
+import config from '../../helpes/config';
 
 export class GridContainer extends React.Component {
 
@@ -10,7 +11,7 @@ export class GridContainer extends React.Component {
         super(props);
         this.state = {
             mediaList: [],
-            host: 'http://10.0.0.2:4000',
+            host: config.getHostName(),
             idHash: ''
         };
 
@@ -41,7 +42,7 @@ export class GridContainer extends React.Component {
     render() {
         return (
             <div>
-                <ReactPlayer url={"http://10.0.0.2:4000/getData/?mediahash=" + this.state.idHash} controls={true} playing />
+                <ReactPlayer url={this.state.host+"/getData/?mediahash=" + this.state.idHash} controls={true} playing />
                 <div className="grid-container">
                     {this.state.mediaList.map((el) => (<div className="gid-media-card" onClick={() => this.openMedia(el.hashId)}><img src={this.state.host + el.tumbnail} /></div>))}
                 </div>
