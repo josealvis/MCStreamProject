@@ -46,7 +46,7 @@ function generateTumbnail(mediaPath){
                 //timestamps: [30.5, '50%', '01:10.123'],
                 filename: tumnailName,
                 folder: tumbnailPath,
-                size: '420x280'
+                size: '620x480'
               });
         }
     });
