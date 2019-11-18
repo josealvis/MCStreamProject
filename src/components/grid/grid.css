@@ -1,0 +1,21 @@
+.grid-container{
+    padding-top: 100px;;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #212121;
+    color: white;
+}
+
+.gid-media-card{
+    min-height: 270px;
+    max-height: 270px;
+    min-width: 420px;
+    max-width: 420px;
+    background-color: white;
+    margin: 4px;
+    margin-bottom:100px;
+}
