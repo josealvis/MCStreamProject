@@ -12,9 +12,9 @@
 }
 
 .gid-media-card{
-    height: 400px;
+    height: 380px;
     background-color: red;
-    width: 300px;
+    width: 250px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -24,23 +24,17 @@
     
 }
 
-.media-img{
-    flex-grow:1; 
 
-    max-height: 500px;
-    min-height: 500px;
-
-}
 
 .grid-card-title{
 position: absolute;
-margin-top: 75px;
+margin-top: 8.2%;
   z-index: 2;
   color: white;
   background-color: #212121;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
   flex-grow:1;
-  width: 350px;
+  width: 250px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.05em;
@@ -48,42 +42,12 @@ margin-top: 75px;
 }
 
 
-.gid-media-card{
-    height: 200px;
-    background-color: red;
-    width: 350px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 3px;
-    z-index: 3;
-    -webkit-transition: height 1.3s; /* Safari prior 6.1 */
-    transition: height 1.3s;
-    
-}
 
-.gid-media-card:hover{
-    position: relative;
-    height: 400px;
-    width: 350px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 3px;
-    z-index: 3;
-    -webkit-transition: height 1s; /* Safari prior 6.1 */
-    transition: height 1s;
-
-    
-}
 
 .media-img{
     flex-grow:1; 
-    padding-top: 30px;
-    max-height: 500px;
-    min-height: 500px;
+    max-height: 400px;
+    min-height: 400px;
 
 }
 
