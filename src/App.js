@@ -15,8 +15,8 @@ class App extends React.Component {
       <div className="App">
         <Router history={history} >
           <Switch>
-            <Router path="/home" component={GridContainer} />
-            <Router path="/player/:id" render={(props)=><VideoPlayer {...props}/>} />
+            <Route path="/home" render={(props)=><GridContainer {...props}/>}  />
+            <Route path="/player/:id" render={(props)=><VideoPlayer {...props}/>} />
             <Redirect from="*" to="/home" />
           </Switch>
         </Router>
