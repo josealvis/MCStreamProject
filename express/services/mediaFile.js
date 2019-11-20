@@ -10,7 +10,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);  
 
 var {suportExt} = require('../core/constants');
-
+// create a pagination
 function readDir(mediaPath){
     let list = [];
     fs.readdirSync(mediaPath).forEach(function (e) {
@@ -46,7 +46,7 @@ function generateTumbnail(mediaPath){
                 //timestamps: [30.5, '50%', '01:10.123'],
                 filename: tumnailName,
                 folder: tumbnailPath,
-                size: '420x280'
+                size: '620x480'
               });
         }
     });

@@ -5,17 +5,50 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+   
     background-color: #212121;
     color: white;
 }
 
 .gid-media-card{
-    min-height: 270px;
-    max-height: 270px;
-    min-width: 420px;
-    max-width: 420px;
-    background-color: white;
-    margin: 4px;
-    margin-bottom:100px;
+    height: 380px;
+    background-color:#545454;
+    width: 250px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+
+    
 }
+
+
+
+.grid-card-title{
+position: absolute;
+   margin-top: 8.2%;
+  z-index: 2;
+  color: white;
+  background-color: #212121;
+  background-color: rgba(0, 0, 0, 0.75);
+
+  width: 250px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.05em;
+  font-weight: bold;
+  text-justify: auto;
+}
+
+
+
+
+.media-img{
+    flex-grow:1; 
+    max-height: 400px;
+    min-height: 400px;
+
+}
+
