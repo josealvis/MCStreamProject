@@ -3,7 +3,7 @@ import React from 'react';
 import './grid.css'
 import axios from 'axios';
 import ReactPlayer from 'react-player'
-import config from '../../helpes/config';
+import config from '../../helpers/config';
 
 import {GridItem} from './GridItem';
 
