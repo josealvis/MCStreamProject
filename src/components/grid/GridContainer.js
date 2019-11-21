@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState } from 'react';
 
 import './grid.css'
 import axios from 'axios';
@@ -6,6 +6,8 @@ import ReactPlayer from 'react-player'
 import config from '../../helpers/config';
 
 import {GridItem} from './GridItem';
+import {VideoPlayer} from '../VideoPlayer/VideoPlayer';
+
 
 export class GridContainer extends React.Component {
 
@@ -14,8 +16,10 @@ export class GridContainer extends React.Component {
         this.state = {
             mediaList: [],
             host: config.getHostName(),
-            idHash: ''
+            idHash: '',
+            modal: false
         };
+
 
         this.openMedia = this.openMedia.bind(this);
     }
@@ -34,16 +38,22 @@ export class GridContainer extends React.Component {
 
     componentWillMount() {
         this.getData(this);
+
         //this.setState({ mediaList: "this.res" })
     }
 
     openMedia(hash) {
         this.setState({idHash : hash});
+        this.setState({modal : true});
+
     }
+
+
 
     render() {
         return (
             <div>
+                <VideoPlayer videHash ={this.state.idHash} isOpen={this.state.modal}/>
                 <ReactPlayer url={this.state.host+"/getData/?mediahash=" + this.state.idHash} controls={true} playing />
                 <div className="grid-container">
                     {this.state.mediaList.map((el) => (<GridItem 
