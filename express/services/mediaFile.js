@@ -10,7 +10,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);  
 
 var {suportExt} = require('../core/constants');
-
+// create a pagination
 function readDir(mediaPath){
     let list = [];
     fs.readdirSync(mediaPath).forEach(function (e) {

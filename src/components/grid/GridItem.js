@@ -21,7 +21,7 @@ export class GridItem extends React.Component {
 
     render() {
         return (<div className="gid-media-card"  onClick={this.clickHandle}>
-       <div class="grid-card-title"><span >The meadia title </span></div>
+       <div class="grid-card-title"><span>{this.props.title.substring(0,40)} </span></div>
             <img className="media-img" src={this.props.img} />
         </div>);
     }

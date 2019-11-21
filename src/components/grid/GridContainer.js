@@ -46,7 +46,12 @@ export class GridContainer extends React.Component {
             <div>
                 <ReactPlayer url={this.state.host+"/getData/?mediahash=" + this.state.idHash} controls={true} playing />
                 <div className="grid-container">
-                    {this.state.mediaList.map((el) => (<GridItem callback={this.openMedia} hashId={el.hashId}  img={this.state.host + el.tumbnail} />))}
+                    {this.state.mediaList.map((el) => (<GridItem 
+                    callback={this.openMedia} 
+                    hashId={el.hashId}  
+                    img={this.state.host + el.tumbnail}
+                    title ={el.name}
+                     />))}
                 </div>
             </div>
         );
