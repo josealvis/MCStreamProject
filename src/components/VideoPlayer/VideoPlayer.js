@@ -2,35 +2,36 @@ import React, { useState } from 'react';
 import ReactPlayer from 'react-player'
 import { useParams } from "react-router-dom";
 import { Modal, Button } from 'react-bootstrap';
+import './style.css';
 
 
 function Modald(props) {
-    const [show, setShow] = useState(false);
+    //const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    //const handleClose = () => setShow(false);
+    //const handleShow = () => setShow(true);
+
+    const handleClose = () => props.closeModal();
+    const handleShow = () => props.closeModal();
 
     return (
-        <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-        </Button>
+        <Modal  {...props}
 
-            <Modal show={props.isOpen} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body> <ReactPlayer url={"http://10.0.0.2:4000/getData/?mediahash=" + props.videHash} controls={true} playing /></Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-            </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
-            </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+            aria-labelledby="contained-modal-title-vcenter"
+            dialogClassName="video-modal"
+            backdropClassName="back-drop"
+            centered
+            show={props.isOpen} onHide={handleClose}>
+            <Modal.Header closeButton>
+    <Modal.Title id="contained-modal-title-vcenter">{props.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                    <ReactPlayer url={"http://10.0.0.2:4000/getData/?mediahash=" + props.videHash} 
+                    controls={true} height="600" width="750" playing />
+                </div>
+            </Modal.Body>
+        </Modal>
     );
 }
 

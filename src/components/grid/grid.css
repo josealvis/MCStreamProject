@@ -12,9 +12,9 @@
 }
 
 .gid-media-card{
-    height: 380px;
+    height: 350px;
     background-color:#545454;
-    width: 250px;
+    width: 220px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -28,16 +28,16 @@
 
 .grid-card-title{
 position: absolute;
-   margin-top: 8.2%;
+   margin-top: 7.4%;
   z-index: 2;
   color: white;
   background-color: #212121;
   background-color: rgba(0, 0, 0, 0.75);
 
-  width: 250px;
+  width: 220px;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-size: 1.05em;
+  font-size: 1.00em;
   font-weight: bold;
   text-justify: auto;
 }
@@ -51,4 +51,3 @@ position: absolute;
     min-height: 400px;
 
 }
-

@@ -1,0 +1,19 @@
+
+.video-modal{
+    width: 50% !important; 
+    max-width: 100% !important;
+    max-height: 100% !important;
+    padding: 0;
+}
+
+.video-modal .modal-content{
+background-color: #1b1b1b !important;
+color: #bdbdbd !important;
+}
+
+.back-drop{
+    background-color: black !important;
+    opacity: 90% !important;
+}
+
+

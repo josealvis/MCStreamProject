@@ -17,6 +17,7 @@ export class GridContainer extends React.Component {
             mediaList: [],
             host: config.getHostName(),
             idHash: '',
+            videoTitle:'',
             modal: false
         };
 
@@ -42,10 +43,15 @@ export class GridContainer extends React.Component {
         //this.setState({ mediaList: "this.res" })
     }
 
-    openMedia(hash) {
-        this.setState({idHash : hash});
+    openMedia(vidMetaData) {
+        this.setState({idHash : vidMetaData.hashId});
+        this.setState({videoTitle : vidMetaData.name});
         this.setState({modal : true});
 
+    }
+    closeMediaHandle() {
+        this.setState({idHash : ''});
+        this.setState({modal : false});
     }
 
 
@@ -53,12 +59,15 @@ export class GridContainer extends React.Component {
     render() {
         return (
             <div>
-                <VideoPlayer videHash ={this.state.idHash} isOpen={this.state.modal}/>
-                <ReactPlayer url={this.state.host+"/getData/?mediahash=" + this.state.idHash} controls={true} playing />
+                <VideoPlayer videHash ={this.state.idHash} 
+                isOpen={this.state.modal} 
+                closeModal={()=>this.closeMediaHandle()}
+                title={this.state.videoTitle}/>
                 <div className="grid-container">
                     {this.state.mediaList.map((el) => (<GridItem 
                     callback={this.openMedia} 
-                    hashId={el.hashId}  
+                    hashId={el.hashId}
+                    fileData ={el}  
                     img={this.state.host + el.tumbnail}
                     title ={el.name}
                      />))}

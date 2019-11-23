@@ -13,7 +13,7 @@ export class GridItem extends React.Component {
     }
 
     clickHandle() {
-        this.props.callback(this.props.hashId);
+        this.props.callback(this.props.fileData);
 
     }
 
