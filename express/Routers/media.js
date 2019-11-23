@@ -52,7 +52,10 @@ router.get('/getMediaList', function(req, res){
         mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x])];
     }
 
+    mediaList =  mediaList.slice(20, 30);
+
     res.send(mediaList.map(el =>{
+      rd.generateTumbnail(el.path);
       el.tumbnail = "/tumbnail/?name="+el.tumbnail;
       return el;
     }));
