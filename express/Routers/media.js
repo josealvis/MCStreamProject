@@ -8,10 +8,14 @@ var mediaRepo = require('../repos/mediaRepo');
 
 
 router.get('/getData', function(req, res) {
-    let mediaPath = mediaRepo.getMediaPaths()[0];
-  
+    let mediaList = [];
+    let mediaPaths = mediaRepo.getMediaPaths();
+    for(let x=0; x<mediaPaths.length; x++ ){
+        mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x])];
+    }
+
     let mediahash = req.query.mediahash;
-    const path = rd.readDir(mediaPath).filter(el => el.hashId == mediahash)[0].path;//'D:/Videos/Peliculas/vid/a.mp4'
+    const path = mediaList.filter(el => el.hashId == mediahash)[0].path;//'D:/Videos/Peliculas/vid/a.mp4'
     const stat = fs.statSync(path)
     const fileSize = stat.size
     const range = req.headers.range
@@ -44,7 +48,6 @@ router.get('/getData', function(req, res) {
 router.get('/getMediaList', function(req, res){
     let mediaList = [];
     let mediaPaths = mediaRepo.getMediaPaths();
-    console.log(mediaPaths);
     for(let x=0; x<mediaPaths.length; x++ ){
         mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x])];
     }
