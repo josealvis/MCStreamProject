@@ -1,4 +1,5 @@
 import React from 'react';
+import foldericon from '../../icons/folder_open-24px.svg';
 
 export class GridItem extends React.Component {
 
@@ -18,11 +19,10 @@ export class GridItem extends React.Component {
     }
 
 
-
     render() {
         return (<div className="gid-media-card"  onClick={this.clickHandle}>
        <div class="grid-card-title"><span>{this.props.title.substring(0,40)} </span></div>
-            <img className="media-img" src={this.props.img} />
+            <img className="media-img" src={this.props.hashId!=undefined? this.props.img :foldericon } />
         </div>);
     }
 

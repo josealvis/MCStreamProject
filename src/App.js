@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-ro
 import { history } from "./helpers/history";
 
 import logo from './logo.svg';
+
 import './App.css';
 import { Grid } from './components/grid/GridItem';
 import { GridContainer } from './components/grid/GridContainer';

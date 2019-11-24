@@ -18,7 +18,8 @@ export class GridContainer extends React.Component {
             host: config.getHostName(),
             idHash: '',
             videoTitle:'',
-            modal: false
+            modal: false,
+            rowNum :1
         };
 
 
@@ -28,7 +29,7 @@ export class GridContainer extends React.Component {
     getData(scope) {
         debugger
         //http://localhost:4000/getData/?number=2 //desarrollo
-        axios.get(this.state.host + '/getMediaList')
+        axios.get(this.state.host + '/getMediaList/?rowNum='+this.state.rowNum)
             .then(function (response) {
                 // handle success
 

@@ -32,6 +32,25 @@ function readDir(mediaPath) {
     return list;
 }
 
+function readDirOneLv(mediaPath) {
+    let list = [];
+    fs.readdirSync(mediaPath).forEach(function (e) {
+        let file = mediaPath + '/' + e;
+        const stat = fs.statSync(file)
+        if (stat.isDirectory()) {
+            list.push({name: e, isFolder: true, path: file, });
+        } else {
+            let ext = path.extname(file);
+            if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
+                var hashId = generateHash(file);
+                list.push({ hashId, name: e, path: file, tumbnail: getTumbnailPath(file) });
+            }
+        }
+
+    });
+    return list;
+}
+
 function generateTumbnail(mediaPath) {
     //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
@@ -41,7 +60,15 @@ function generateTumbnail(mediaPath) {
     fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
-            getPoster(fileName)
+            var proc = new ffmpeg(mediaPath)
+            .screenshots({
+                count: 1,
+                //timestamps: [30.5, '50%', '01:10.123'],
+                filename: tumnailName,
+                folder: tumbnailPath,
+                size: '620x480'
+            });
+            /*getPoster(fileName)
                 .then(function (response) {
                     // handle success
                     console.log("response total,", response.data.total_results );
@@ -61,7 +88,7 @@ function generateTumbnail(mediaPath) {
                             console.log("self generate tumbNail");
 
                     }
-                }).catch(err => console.log('GetPoster error', err))
+                }).catch(err => console.log('GetPoster error', err))*/
         }
     });
 
@@ -73,4 +100,4 @@ function getTumbnailPath(mediaPath) {
     return tumnailName.replace('/', '');
 }
 
-module.exports = {readDir, generateTumbnail};
+module.exports = {readDir,readDirOneLv, generateTumbnail};
