@@ -60,15 +60,8 @@ function generateTumbnail(mediaPath) {
     fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
-            var proc = new ffmpeg(mediaPath)
-            .screenshots({
-                count: 1,
-                //timestamps: [30.5, '50%', '01:10.123'],
-                filename: tumnailName,
-                folder: tumbnailPath,
-                size: '620x480'
-            });
-            /*getPoster(fileName)
+   
+            getPoster(fileName)
                 .then(function (response) {
                     // handle success
                     console.log("response total,", response.data.total_results );
@@ -88,7 +81,7 @@ function generateTumbnail(mediaPath) {
                             console.log("self generate tumbNail");
 
                     }
-                }).catch(err => console.log('GetPoster error', err))*/
+                }).catch(err => console.log('GetPoster error', err))
         }
     });
 

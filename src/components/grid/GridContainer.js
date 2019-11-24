@@ -66,6 +66,7 @@ export class GridContainer extends React.Component {
                 title={this.state.videoTitle}/>
                 <div className="grid-container">
                     {this.state.mediaList.map((el) => (<GridItem 
+                    key={el.hashId}
                     callback={this.openMedia} 
                     hashId={el.hashId}
                     fileData ={el}  
