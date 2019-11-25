@@ -11,8 +11,8 @@ app.use(cors());
 app.use(loggerMiddlewere);
 
 app.use(express.static(path.join(__dirname, '../build'))); 
-/*Routers */
 
+/*Routers */
 app.use('/',mediaRouter);
 
 // Handles any requests that don't match the ones above

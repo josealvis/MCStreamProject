@@ -8,13 +8,8 @@ class mediaRepo {
     getMediaPaths() {
         let rawdata = fs.readFileSync(configPath);
         let data = JSON.parse(rawdata);
-        //console.log(data.mediaPaths);
         return data.mediaPaths;
     }
 }
-
-
-//var md =  new mediaRepo();
-//md.getMediaPaths();
 
 module.exports = new mediaRepo();
