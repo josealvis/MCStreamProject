@@ -20,7 +20,7 @@
     "react-app-polyfill": "^1.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": " react-scripts start",
     "start-express": "nodemon express/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,5 +46,6 @@
   "devDependencies": {
     "jest": "^24.9.0",
     "nodemon": "^1.19.4"
-  }
+  } ,
+  "proxy": "http://localhost:4000"
 }

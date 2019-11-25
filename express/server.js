@@ -12,8 +12,15 @@ app.use(loggerMiddlewere);
 
 app.use(express.static(path.join(__dirname, '../build'))); 
 /*Routers */
+
 app.use('/',mediaRouter);
 
-app.listen(4000, function () {
-    console.log('the app is running in localHost:4000');
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+const port = process.env.PORT || 4000;
+app.listen(port, function () {
+    console.log('the app is running in localHost:'+port);
   });

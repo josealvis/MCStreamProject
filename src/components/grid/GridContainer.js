@@ -3,7 +3,6 @@ import React , { useState } from 'react';
 import './grid.css'
 import axios from 'axios';
 import ReactPlayer from 'react-player'
-import config from '../../helpers/config';
 
 import {GridItem} from './GridItem';
 import {VideoPlayer} from '../VideoPlayer/VideoPlayer';
@@ -15,7 +14,6 @@ export class GridContainer extends React.Component {
         super(props);
         this.state = {
             mediaList: [],
-            host: config.getHostName(),
             idHash: '',
             videoTitle:'',
             modal: false,
@@ -28,8 +26,7 @@ export class GridContainer extends React.Component {
 
     getData(scope) {
         debugger
-        //http://localhost:4000/getData/?number=2 //desarrollo
-        axios.get(this.state.host + '/getMediaList/?rowNum='+this.state.rowNum)
+        axios.get('/getMediaList/?rowNum='+this.state.rowNum)
             .then(function (response) {
                 // handle success
 
@@ -70,7 +67,7 @@ export class GridContainer extends React.Component {
                     callback={this.openMedia} 
                     hashId={el.hashId}
                     fileData ={el}  
-                    img={this.state.host + el.tumbnail}
+                    img={el.tumbnail}
                     title ={el.name}
                      />))}
                 </div>
