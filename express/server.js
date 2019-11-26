@@ -4,16 +4,23 @@ var path = require('path');
 var app = express();
 
 var mediaRouter = require('./Routers/media');
+var configRouter = require('./Routers/config');
 
 var  loggerMiddlewere = (req, res, next)=> {console.log("Api called!"); next();};
 
 app.use(cors());
 app.use(loggerMiddlewere);
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+var root = process.env.NODE_ENV === "development"? "../src":"../build"
+
 
 app.use(express.static(path.join(__dirname, '../build'))); 
 
 /*Routers */
 app.use('/',mediaRouter);
+app.use('/',configRouter);
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{

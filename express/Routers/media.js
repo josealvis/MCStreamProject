@@ -11,7 +11,7 @@ router.get('/getData', function(req, res) {
     let mediaList = [];
     let mediaPaths = mediaRepo.getMediaPaths();
     for(let x=0; x<mediaPaths.length; x++ ){
-        mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x])];
+        mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x].path)];
     }
 
     let mediahash = req.query.mediahash;
@@ -51,7 +51,7 @@ router.get('/getMediaList', function(req, res){
     let rowNum = req.query.rowNum != undefined?req.query.rowNum:0;
     let mediaPaths = mediaRepo.getMediaPaths();
     for(let x=0; x<mediaPaths.length; x++ ){
-        mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x])];
+        mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x].path)];
     }
     var end =  range*(rowNum+1);
     var start =  rowNum*range
@@ -69,5 +69,7 @@ router.get('/tumbnail', function(req, res){
   const  tumbnailPath= path.join(__dirname,'../tumbnails');
   res.sendFile(tumbnailPath + '/' + name)
 })
+
+
 
 module.exports = router;
