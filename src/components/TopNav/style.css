@@ -1,0 +1,17 @@
+.top-nav-container{
+    background-color: white;
+    height: 100px;
+    padding: 20px;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    display: flex;
+}
+
+.mid-content{
+
+}
+
+
+.search-box{
+    width: 600px;
+}

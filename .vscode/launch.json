@@ -21,6 +21,17 @@
             "cwd": "${workspaceRoot}/express",
             "preLaunchTask": null,
             "runtimeExecutable": null
+        },
+        {
+            "name": "Express-Attach",
+            "type": "node",
+            "request": "attach",
+            //"port": 4000,
+            //"address": "localhost",
+            "restart": false,
+            "sourceMaps": false,
+            "localRoot": "${workspaceRoot}/express",
+            "remoteRoot": "${workspaceRoot}/express"
         }
 
     ]

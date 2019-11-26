@@ -67,7 +67,6 @@ router.get('/getMediaList', function(req, res){
 router.get('/tumbnail', function(req, res){
   let name = req.query.name;
   const  tumbnailPath= path.join(__dirname,'../tumbnails');
-  console.log(tumbnailPath + '/' + name);
   res.sendFile(tumbnailPath + '/' + name)
 })
 

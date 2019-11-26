@@ -5,8 +5,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-   
+
     background-color: #212121;
     color: white;
 }
@@ -16,12 +15,12 @@
     background-color:#545454;
     width: 220px;
     overflow: hidden;
+    -ms-scroll-limit: 0 0 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 3px;
-
-    
+    flex-direction: column;
 }
 
 
@@ -46,8 +45,6 @@ position: absolute;
 
 
 .media-img{
-    flex-grow:1; 
     max-height: 400px;
     min-height: 400px;
-
 }

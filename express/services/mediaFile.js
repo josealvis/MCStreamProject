@@ -64,10 +64,8 @@ function generateTumbnail(mediaPath) {
             getPoster(fileName)
                 .then(function (response) {
                     // handle success
-                    console.log("response total,", response.data.total_results );
                     if (response.data.total_results > 0 && response.data.results[0].poster_path !== null) {
                         var posterUrl = "https://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
-                        console.log(posterUrl);
                         saveImageToDisk(posterUrl, tumbnailPath + tumnailName);
                     } else {
                         var proc = new ffmpeg(mediaPath)
@@ -78,8 +76,6 @@ function generateTumbnail(mediaPath) {
                                 folder: tumbnailPath,
                                 size: '620x480'
                             });
-                            console.log("self generate tumbNail");
-
                     }
                 }).catch(err => console.log('GetPoster error', err))
         }
