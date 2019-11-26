@@ -16,4 +16,9 @@ router.post('/addPath', function (req, res) {
   mediaRepo.addMediaPath(data.path, data.displayName, data.nsfw);
 })
 
+router.post('/edidPath', function (req, res) {
+    let data = req.body
+    mediaRepo.edditMediaPath(data.path, data.displayName, data.nsfw);
+  })
+
 module.exports = router;

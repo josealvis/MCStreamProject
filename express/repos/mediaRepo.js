@@ -18,8 +18,13 @@ class mediaRepo {
         fs.writeFileSync(configPath, JSON.stringify(data));
     }
 
-    edditMediaPath(){
-
+    edditMediaPath(path,displayName ="", nsfw =0){
+        let pathObj = {path,displayName,nsfw};
+        let rawdata = fs.readFileSync(configPath);
+        let data = JSON.parse(rawdata);
+        let index = data.mediaPaths.indexOf(data.mediaPaths.filter(el=> el.path === pathObj.path)[0]);
+        data = data.splice(index, 1, pathObj);
+        fs.writeFileSync(configPath, JSON.stringify(data));
     }
 
 }

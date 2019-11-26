@@ -4,6 +4,8 @@ var path = require('path')
 var rd = require('../services/mediaFile');
 var fs = require ('fs');
 
+var {isNSFWMedia} = require('../services/mediaTitleProcessing');
+
 var mediaRepo = require('../repos/mediaRepo');
 
 
@@ -47,7 +49,7 @@ router.get('/getData', function(req, res) {
 
 router.get('/getMediaList', function(req, res){
     let mediaList = [];
-    let range = 30;
+    let range = 50;
     let rowNum = req.query.rowNum != undefined?req.query.rowNum:0;
     let mediaPaths = mediaRepo.getMediaPaths();
     for(let x=0; x<mediaPaths.length; x++ ){
@@ -60,6 +62,7 @@ router.get('/getMediaList', function(req, res){
     res.send(mediaList.map(el =>{
       rd.generateTumbnail(el.path);
       el.tumbnail = "/tumbnail/?name="+el.tumbnail;
+      el.nsfw =isNSFWMedia(el.name);
       return el;
     }));
 })
