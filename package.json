@@ -28,6 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-jest": "jest test/",
+    "test-express": "jest --watch express/",
     "eject": "react-scripts eject",
     "start-server": "node express/server.js"
   },

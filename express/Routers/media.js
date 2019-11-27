@@ -6,8 +6,8 @@ var fs = require ('fs');
 
 var {isNSFWMedia} = require('../services/mediaTitleProcessing');
 
-var mediaRepo = require('../repos/mediaRepo');
-
+var rp = require('../repos/mediaRepo');
+var  mediaRepo = new rp();
 
 router.get('/getData', function(req, res) {
     let mediaList = [];
@@ -72,7 +72,5 @@ router.get('/tumbnail', function(req, res){
   const  tumbnailPath= path.join(__dirname,'../tumbnails');
   res.sendFile(tumbnailPath + '/' + name)
 })
-
-
 
 module.exports = router;

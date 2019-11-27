@@ -4,7 +4,8 @@ var path = require('path')
 var rd = require('../services/mediaFile');
 var fs = require ('fs');
 
-var mediaRepo = require('../repos/mediaRepo');
+var rp = require('../repos/mediaRepo');
+var  mediaRepo = new rp();
 
 router.get('/getMediaPath', (req, res)=>{
     let mediaPaths = mediaRepo.getMediaPaths();
@@ -19,6 +20,11 @@ router.post('/addPath', function (req, res) {
 router.post('/edidPath', function (req, res) {
     let data = req.body
     mediaRepo.edditMediaPath(data.path, data.displayName, data.nsfw);
+  })
+
+  router.post('/deletePath', function (req, res) {
+    let data = req.body
+    mediaRepo.deleteMediaPath(data.path);
   })
 
 module.exports = router;

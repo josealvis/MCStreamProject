@@ -5,28 +5,40 @@ const  configPath= path.join(__dirname,'../core/config.json');
 
 class mediaRepo {
 
+    constructor(cfp = null){
+      this._configPath = cfp? cfp: configPath;
+    }
+
     getMediaPaths() {
-        let rawdata = fs.readFileSync(configPath);
+        let rawdata = fs.readFileSync(this._configPath);
         let data = JSON.parse(rawdata);
         return data.mediaPaths;
     }
 
     addMediaPath(path,displayName ="", nsfw =0){
-        let rawdata = fs.readFileSync(configPath);
+        let rawdata = fs.readFileSync(this._configPath);
         let data = JSON.parse(rawdata);
         data.mediaPaths.push({path, displayName, NSFW:nsfw});
-        fs.writeFileSync(configPath, JSON.stringify(data));
+        fs.writeFileSync(this._configPath, JSON.stringify(data));
     }
 
-    edditMediaPath(path,displayName ="", nsfw =0){
+    edditMediaPath(path,displayName, nsfw){
         let pathObj = {path,displayName,nsfw};
-        let rawdata = fs.readFileSync(configPath);
+        let rawdata = fs.readFileSync(this._configPath);
         let data = JSON.parse(rawdata);
-        let index = data.mediaPaths.indexOf(data.mediaPaths.filter(el=> el.path === pathObj.path)[0]);
-        data = data.splice(index, 1, pathObj);
-        fs.writeFileSync(configPath, JSON.stringify(data));
+        let index = data.mediaPaths.map(function(e) { return e.path; }).indexOf(path);
+        data.mediaPaths.splice(index, 1, pathObj);
+        fs.writeFileSync(this._configPath, JSON.stringify(data));
+    }
+
+    deleteMediaPath(path){
+        let rawdata = fs.readFileSync(this._configPath);
+        let data = JSON.parse(rawdata);
+        let index = data.mediaPaths.map(function(e) { return e.path; }).indexOf(path);
+        data.mediaPaths.splice(index, 1);
+        fs.writeFileSync(this._configPath, JSON.stringify(data));
     }
 
 }
 
-module.exports = new mediaRepo();
+module.exports =  mediaRepo;
