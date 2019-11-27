@@ -39,8 +39,6 @@ describe('mediaRepo', function(){
     });
 })
 
-
-
 function cleanJSON() {
     let data = {
         mediaPaths: [{ path: "C:/path", displayName: "", NSFW: true }]
