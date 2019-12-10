@@ -53,14 +53,17 @@ export class Settings extends React.Component {
     }
 
     addNewFolderPath(scope) {
-
-        axios.post('/addPath', this.state.path)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        this.state.path.path = this.state.path.path.replace(/\\/g,'/')
+        this.state.configObj.paths.push(this.state.path);
+        this.setState({configObj:this.state.configObj });
+        
+        // axios.post('/addPath', this.state.path)
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     }
 
     getFolderPaths() {
@@ -106,7 +109,7 @@ export class Settings extends React.Component {
             <div className="st-box">
                 <h2>Add folder paths</h2>
                 <div className="input-container-path">
-                    <input directory="" webkitdirectory="" type="file" />
+                   
                     <InputGroup className="mb-3">
                         <FormControl
                             placeholder="Recipient's username"

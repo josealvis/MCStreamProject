@@ -48,16 +48,18 @@ class mediaRepo {
     saveCofig(config) {
         let rawdata = fs.readFileSync(this._configPath);
         let data = JSON.parse(rawdata);
-        if (cofing.paths) {
-            var newEl = [];
-            data.mediaPaths = data.mediaPaths.map(el => {
-                let updateEl = cofing.paths.filter(p => p.path == el.path);
-                if (updateEl)  this.edditMediaPath(updateEl.path, updateEl.displayName, updateEl.nsfw)
-                else return el;
-            })
-            newEl = cofing.paths.filter(el => !data.mediaPaths.some(p => p.path == el.path));
-            newEl.map(el=>{edditMediaPath(el.path, el.displayName, el.nsfw); return el;})
-        }
+        data.mediaPaths = config.paths.map(el =>{return {path: el.path, displayName:el.displayName, nsfw: el.nsfw }})
+        fs.writeFileSync(this._configPath, JSON.stringify(data));
+        // if (config.paths) {
+        //     var newEl = [];
+        //     data.mediaPaths.map(el => {
+        //         let updateEl = config.paths.filter(p => p.path == el.path)[0];
+        //         if (updateEl && updateEl.path)  this.edditMediaPath(updateEl.path, updateEl.displayName, updateEl.NSFW)
+        //         return el;
+        //     })
+        //     newEl = config.paths.filter(el => !data.mediaPaths.some(p => p.path == el.path));
+        //     newEl.map(el=>{edditMediaPath(el.path, el.displayName, el.NSFW); return el;})
+        // }
 
     }
 
