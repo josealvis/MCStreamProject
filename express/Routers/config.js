@@ -17,6 +17,13 @@ router.post('/addPath', function (req, res) {
   mediaRepo.addMediaPath(data.path, data.displayName, data.nsfw);
 })
 
+router.post('/saveConfig', function (req, res) { 
+  let data = req.body
+  for(let x=0; x<data.paths.length; x++){
+    mediaRepo.addMediaPath(data.paths[x].path, data.paths[x].displayName, data.paths[x].nsfw);
+  }
+})
+
 router.post('/edidPath', function (req, res) {
     let data = req.body
     mediaRepo.edditMediaPath(data.path, data.displayName, data.nsfw);

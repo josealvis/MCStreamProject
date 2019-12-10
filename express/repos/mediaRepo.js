@@ -38,10 +38,27 @@ class mediaRepo {
             let index = data.mediaPaths.map(function (e) { return e.path; }).indexOf(path);
             data.mediaPaths.splice(index, 1);
             fs.writeFileSync(this._configPath, JSON.stringify(data));
-        } else { 
+        } else {
             console.log("path has to be specified");
             throw "path has to be specified"
-         }
+        }
+    }
+
+
+    saveCofig(config) {
+        let rawdata = fs.readFileSync(this._configPath);
+        let data = JSON.parse(rawdata);
+        if (cofing.paths) {
+            var newEl = [];
+            data.mediaPaths = data.mediaPaths.map(el => {
+                let updateEl = cofing.paths.filter(p => p.path == el.path);
+                if (updateEl)  this.edditMediaPath(updateEl.path, updateEl.displayName, updateEl.nsfw)
+                else return el;
+            })
+            newEl = cofing.paths.filter(el => !data.mediaPaths.some(p => p.path == el.path));
+            newEl.map(el=>{edditMediaPath(el.path, el.displayName, el.nsfw); return el;})
+        }
+
     }
 
 }
