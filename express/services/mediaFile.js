@@ -65,17 +65,17 @@ function generateTumbnail(mediaPath) {
                 .then(function (response) {
                     // handle success
                     if (response.data.total_results > 0 && response.data.results[0].poster_path !== null) {
-                        var posterUrl = "https://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
+                        var posterUrl = "http://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
                         saveImageToDisk(posterUrl, tumbnailPath + tumnailName);
                     } else {
-                        var proc = new ffmpeg(mediaPath)
-                            .screenshots({
-                                count: 1,
-                                //timestamps: [30.5, '50%', '01:10.123'],
-                                filename: tumnailName,
-                                folder: tumbnailPath,
-                                size: '620x480'
-                            });
+                        // var proc = new ffmpeg(mediaPath)
+                        //     .screenshots({
+                        //         count: 1,
+                        //         //timestamps: [30.5, '50%', '01:10.123'],
+                        //         filename: tumnailName,
+                        //         folder: tumbnailPath,
+                        //         size: '620x480'
+                        //     });
                     }
                 }).catch(err => console.log('GetPoster error', err))
         }

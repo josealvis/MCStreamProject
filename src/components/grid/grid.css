@@ -1,11 +1,12 @@
 .grid-container{
-    padding-top: 100px;;
+    padding-top: 100px;
     min-height: 100vh;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-
+    /* flex-wrap: wrap; */
+    overflow: hidden;
+    /* justify-content: center; */
+    overflow-x: scroll;
     background-color: #212121;
     color: white;
 }
@@ -13,8 +14,8 @@
 .gid-media-card{
     height: 350px;
     background-color:#545454;
-    width: 220px;
-    overflow: hidden;
+    min-width: 220px;
+    overflow: hidden; 
     -ms-scroll-limit: 0 0 0 0;
     display: flex;
     justify-content: center;
@@ -26,9 +27,10 @@
 
 
 .grid-card-title{
-position: absolute;
-   margin-top: 7.4%;
-  z-index: 2;
+  position: relative;
+  margin-top: 7.4%;
+  overflow: hidden;
+  z-index: 99999 !important;
   color: white;
   background-color: #212121;
   background-color: rgba(0, 0, 0, 0.75);
