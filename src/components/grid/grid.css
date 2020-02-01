@@ -15,38 +15,40 @@
     height: 350px;
     background-color:#545454;
     min-width: 220px;
+    max-width: 220px;
     overflow: hidden; 
-    -ms-scroll-limit: 0 0 0 0;
+    /* -ms-scroll-limit: 0 0 0 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     margin: 3px;
-    flex-direction: column;
+
 }
 
 
 
 .grid-card-title{
-  position: relative;
-  margin-top: 7.4%;
-  overflow: hidden;
+  position: absolute;
   z-index: 99999 !important;
   color: white;
   background-color: #212121;
   background-color: rgba(0, 0, 0, 0.75);
-
   width: 220px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.00em;
   font-weight: bold;
   text-justify: auto;
+
 }
 
 
 
 
 .media-img{
+    position: relative;
     max-height: 400px;
     min-height: 400px;
+     object-fit: cover;
+     align-self: center;
 }
