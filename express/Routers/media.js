@@ -49,9 +49,11 @@ router.get('/getData', function(req, res) {
 
 router.get('/getMediaList', function(req, res){
     let mediaList = [];
-    let range = 50;
+    let range = 150;
+    let nsfw = false;
     let rowNum = req.query.rowNum != undefined?req.query.rowNum:0;
     let mediaPaths = mediaRepo.getMediaPaths();
+    nsfw = mediaPaths[0].nsfw;
     for(let x=0; x<mediaPaths.length; x++ ){
         mediaList =  [...mediaList, ...rd.readDir(mediaPaths[x].path)];
     }
@@ -62,7 +64,7 @@ router.get('/getMediaList', function(req, res){
     res.send(mediaList.map(el =>{
       rd.generateTumbnail(el.path);
       el.tumbnail = "/tumbnail/?name="+el.tumbnail;
-      el.nsfw =isNSFWMedia(el.name);
+      el.nsfw =nsfw?nsfw:isNSFWMedia(el.name);
       return el;
     }));
 })
