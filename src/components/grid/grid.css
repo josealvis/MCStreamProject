@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: row;
     /* flex-wrap: wrap; */
-    overflow: hidden;
+    /* overflow: hidden; */
     /* justify-content: center; */
     overflow-x: scroll;
     background-color: #212121;
@@ -17,10 +17,9 @@
     min-width: 220px;
     max-width: 220px;
     overflow: hidden; 
-    /* -ms-scroll-limit: 0 0 0 0;
-    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center; */
+    display: flex;
     margin: 3px;
 
 }
@@ -29,26 +28,32 @@
 
 .grid-card-title{
   position: absolute;
-  z-index: 99999 !important;
+  z-index: 1 !important;
   color: white;
   background-color: #212121;
   background-color: rgba(0, 0, 0, 0.75);
-  width: 220px;
+  width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.00em;
   font-weight: bold;
   text-justify: auto;
+  margin-left: auto;
+  margin-right: auto;
 
 }
 
 
-
-
 .media-img{
-    position: relative;
-    max-height: 400px;
-    min-height: 400px;
-     object-fit: cover;
-     align-self: center;
+    position: relative; 
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.media-img img{
+
+    max-height: 350px;
+    min-height: 350px;
+    object-fit: cover;    
 }
