@@ -1,21 +1,17 @@
 var fs = require('fs');
 var path = require('path');
 var rp = require('../repos/mediaRepo');
-var {isNSFWMedia} = require('./mediaTitleProcessing');
+var { isNSFWMedia } = require('./mediaTitleProcessing');
 var mediaRepo = new rp();
 var { generateHash } = require('../core/helper');
 var { getPoster } = require('./movieDBAPI');
 const tumbnailPath = path.join(__dirname, '../tumbnails');
 var { saveImageToDisk } = require('../core/helper');
 
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-const ffprobePath = require('@ffprobe-installer/ffprobe').path;
-const ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath(ffmpegPath);
-ffmpeg.setFfprobePath(ffprobePath);
+
 
 var { suportExt } = require('../core/constants');
-// create a pagination
+
 function readDir(mediaPath) {
     let list = [];
     fs.readdirSync(mediaPath).forEach(function (e) {
@@ -64,11 +60,10 @@ function generateMapMedia() {
             path: mediaPaths[x].path,
             nsfw: mediaPaths[x].NSFW,
             media: readDir(mediaPaths[x].path).map(el => {
-                el.nsfw =nsfw? nsfw : isNSFWMedia(el.name);
-                el.tumbnail = "/tumbnail/?name="+el.tumbnail;
+                el.nsfw = nsfw ? nsfw : isNSFWMedia(el.name);
+                el.tumbnail = "/tumbnail/?name=" + el.tumbnail;
                 return el
             })
-
         });
     }
 
@@ -76,6 +71,12 @@ function generateMapMedia() {
 }
 
 function generateTumbnail(mediaPath) {
+    const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+    const ffprobePath = require('@ffprobe-installer/ffprobe').path;
+    const ffmpeg = require('fluent-ffmpeg');
+    ffmpeg.setFfmpegPath(ffmpegPath);
+    ffmpeg.setFfprobePath(ffprobePath);
+
     //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
     let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
