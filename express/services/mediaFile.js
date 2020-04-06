@@ -9,25 +9,26 @@ const tumbnailPath = path.join(__dirname, '../tumbnails');
 var { saveImageToDisk } = require('../core/helper');
 
 
-
 var { suportExt } = require('../core/constants');
 
 function readDir(mediaPath) {
     let list = [];
-    fs.readdirSync(mediaPath).forEach(function (e) {
-        let file = mediaPath + '/' + e;
-        const stat = fs.statSync(file)
-        if (stat.isDirectory()) {
-            list = [...list, ...readDir(file)];
-        } else {
-            let ext = path.extname(file);
-            if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
-                var hashId = generateHash(file);
-                list.push({ hashId, name: e, path: file, tumbnail: getTumbnailPath(file) });
-            }
-        }
+        if (fs.existsSync(mediaPath)) {
+            fs.readdirSync(mediaPath).forEach(function (e) {
+                let file = mediaPath + '/' + e;
+                const stat = fs.statSync(file)
+                if (stat.isDirectory()) {
+                    list = [...list, ...readDir(file)];
+                } else {
+                    let ext = path.extname(file);
+                    if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
+                        var hashId = generateHash(file);
+                        list.push({ hashId, name: e, path: file, tumbnail: getTumbnailPath(file) });
+                    }
+                }
 
-    });
+            });
+        }
     return list;
 }
 
@@ -66,7 +67,6 @@ function generateMapMedia() {
             })
         });
     }
-
     return mediaList;
 }
 
