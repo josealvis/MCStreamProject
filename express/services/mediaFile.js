@@ -1,5 +1,8 @@
 var fs = require('fs');
-var path = require('path')
+var path = require('path');
+var rp = require('../repos/mediaRepo');
+var {isNSFWMedia} = require('./mediaTitleProcessing');
+var mediaRepo = new rp();
 var { generateHash } = require('../core/helper');
 var { getPoster } = require('./movieDBAPI');
 const tumbnailPath = path.join(__dirname, '../tumbnails');
@@ -38,7 +41,7 @@ function readDirOneLv(mediaPath) {
         let file = mediaPath + '/' + e;
         const stat = fs.statSync(file)
         if (stat.isDirectory()) {
-            list.push({name: e, isFolder: true, path: file, });
+            list.push({ name: e, isFolder: true, path: file, });
         } else {
             let ext = path.extname(file);
             if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
@@ -51,6 +54,27 @@ function readDirOneLv(mediaPath) {
     return list;
 }
 
+function generateMapMedia() {
+    let mediaList = [];
+    let mediaPaths = mediaRepo.getMediaPaths();
+    for (let x = 0; x < mediaPaths.length; x++) {
+        let nsfw = mediaPaths[x].NSFW === true;
+        mediaList.push({
+            repo: mediaPaths[x].displayName,
+            path: mediaPaths[x].path,
+            nsfw: mediaPaths[x].NSFW,
+            media: readDir(mediaPaths[x].path).map(el => {
+                el.nsfw =nsfw? nsfw : isNSFWMedia(el.name);
+                el.tumbnail = "/tumbnail/?name="+el.tumbnail;
+                return el
+            })
+
+        });
+    }
+
+    return mediaList;
+}
+
 function generateTumbnail(mediaPath) {
     //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
@@ -60,7 +84,7 @@ function generateTumbnail(mediaPath) {
     fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
-   
+
             getPoster(fileName)
                 .then(function (response) {
                     // handle success
@@ -89,4 +113,6 @@ function getTumbnailPath(mediaPath) {
     return tumnailName.replace('/', '');
 }
 
-module.exports = {readDir,readDirOneLv, generateTumbnail};
+module.exports = { readDir, readDirOneLv, generateTumbnail, generateMapMedia };
+
+
