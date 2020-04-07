@@ -84,7 +84,7 @@ describe('generateMapMedia', () => {
             test('media: prop has to be define', () => { expect(el.media != undefined).toBe(true); })
         })
     });
-    console.log(mediaObject);
+    
     test('media length should be 6', () => { expect(mediaObject[0].media.length).toBe(6); });
 
     fs.existsSync.mockImplementation(() => false);

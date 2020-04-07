@@ -95,6 +95,8 @@ function generateMapMedia() {
             })
         });
     }
+    //update mediaMapper
+    config.mediaObjectMapper.mediaObject = mediaList;
     return mediaList;
 }
 

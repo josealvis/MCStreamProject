@@ -11,12 +11,11 @@ var rp = require('../repos/mediaRepo');
 var mediaRepo = new rp();
 
 router.get('/getData', function (req, res) {
-  let mediaList = [];
-  let mediaPaths = mediaRepo.getMediaPaths();
-  console.log(require("../core/config").mediaObjectMapper);
+  //let mediaList = [];
+  //let mediaPaths = mediaRepo.getMediaPaths();
 
   let mediahash = req.query.mediahash;
-  const path = require("../core/config").mediaObjectMapper.filter(el => el.hashId == mediahash)[0].path;
+  const path = conf.mediaObjectMapper.getMediabyIdhash(mediahash).path;
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range
