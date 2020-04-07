@@ -21,7 +21,7 @@ function Modald(props) {
             <Modal.Body>
                 <div>
                     <ReactPlayer url={"/getData/?mediahash=" + props.videohash}
-                        controls={true} height="600" width="750" playing />
+                        controls={true} height="600" width="750" volume={0}  muted={false} playing />
                 </div>
             </Modal.Body>
         </Modal>

@@ -2,21 +2,32 @@ import React from 'react';
 import axios from 'axios';
 
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Button as MButton }  from '@material-ui/core/';
 
 
 function PathItem(props) {
+
+     function updateElement(){
+        props.onChangeHandler(props.element)
+     }
+
+
+     function onChangeHandler(event){
+        props.element.path =event.target.value; 
+        updateElement();
+     }
 
     return (<InputGroup className="mb-3">
         <FormControl
             placeholder="Recipient's username"
             aria-label="Recipient's username"
             aria-describedby="basic-addon2"
-            onChange={(event)=>{console.log()}}
-            value={props.path}
+            onChange={(event) => { onChangeHandler(event) }}
+            value={props.element.path}
         />
         <InputGroup.Append>
-            <Button variant={props.nsfw ? "dark" : "outline-dark"} >{props.nsfw ? "NSFW" : "SFW"}</Button>
-            <Button variant="outline-secondary" >update</Button>
+            <Button onClick={()=>{props.element.nsfw = !props.element.nsfw;updateElement() }} variant={props.element.nsfw ? "dark" : "outline-dark"} >{props.element.nsfw ? "NSFW" : "SFW"}</Button>
+            <Button onClick={()=>{props.element.deleted = true;updateElement()  }} variant="outline-secondary" >Delete</Button>
         </InputGroup.Append>
     </InputGroup>);
 }
@@ -26,13 +37,15 @@ export class Settings extends React.Component {
         super(props);
         this.state = {
             path: { path: '', displayName: '', nsfw: false },
-            folderPaths: [],
+            configObj: {paths:[],},
         }
 
         this.addNewFolderPath = this.addNewFolderPath.bind(this);
         this.inputPathChangeHandler = this.inputPathChangeHandler.bind(this);
         this.nswfToggle = this.nswfToggle.bind(this);
         this.getFolderPaths = this.getFolderPaths.bind(this);
+        this.saveCongfigHandler =this.saveCongfigHandler.bind(this);
+        this.updateStateHandler = this.updateStateHandler.bind(this);
     }
 
     componentDidMount() {
@@ -40,21 +53,26 @@ export class Settings extends React.Component {
     }
 
     addNewFolderPath(scope) {
-
-        axios.post('/addPath', this.state.path)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        this.state.path.path = this.state.path.path.replace(/\\/g,'/')
+        this.state.configObj.paths.push(this.state.path);
+        this.setState({configObj:this.state.configObj });
+        
+        // axios.post('/addPath', this.state.path)
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     }
 
-    getFolderPaths(){
+    getFolderPaths() {
         var scope = this;
-        axios.get('/getMediaPath' )
+        axios.get('/getMediaPath')
             .then(function (response) {
-                scope.setState({folderPaths:response.data});
+                var cf = scope.state.configObj;
+                cf.paths =response.data;
+                scope.setState({ configObj: cf });
             });
     }
 
@@ -69,13 +87,29 @@ export class Settings extends React.Component {
         this.setState({ path: path });
     }
 
+    saveCongfigHandler(){
+        axios.post('/saveConfig', this.state.configObj)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    updateStateHandler(path){
+        debugger
+        this.state.configObj.paths = this.state.configObj.paths.filter(el => !el.deleted);
+        this.setState({ configObj: this.state.configObj });
+    }
+
 
     render() {
         return (<div className="container">
             <div className="st-box">
                 <h2>Add folder paths</h2>
                 <div className="input-container-path">
-                    <input directory="" webkitdirectory="" type="file" />
+                   
                     <InputGroup className="mb-3">
                         <FormControl
                             placeholder="Recipient's username"
@@ -89,7 +123,8 @@ export class Settings extends React.Component {
                             <Button variant="outline-secondary" onClick={this.addNewFolderPath}>add path</Button>
                         </InputGroup.Append>
                     </InputGroup>
-                    {this.state.folderPaths.map((el,idex)=>(<PathItem key={idex} path={el.path} nsfw={el.NSFW}/>))}
+                    {this.state.configObj.paths.map((el, idex) => (<PathItem onChangeHandler={this.updateStateHandler} key={idex} element={el} path={el.path} nsfw={el.NSFW} />))}
+                    <MButton onClick={this.saveCongfigHandler}  variant="contained" color="secondary" >Save config</MButton>
                 </div>
             </div>
         </div>);
