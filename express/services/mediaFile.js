@@ -1,4 +1,5 @@
 var fs = require('fs');
+let config = require("../core/config");
 var path = require('path');
 var rp = require('../repos/mediaRepo');
 var { isNSFWMedia } = require('./mediaTitleProcessing');
@@ -13,24 +14,51 @@ var { suportExt } = require('../core/constants');
 
 function readDir(mediaPath) {
     let list = [];
-        if (fs.existsSync(mediaPath)) {
-            fs.readdirSync(mediaPath).forEach(function (e) {
-                let file = mediaPath + '/' + e;
-                const stat = fs.statSync(file)
-                if (stat.isDirectory()) {
-                    list = [...list, ...readDir(file)];
-                } else {
-                    let ext = path.extname(file);
-                    if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
-                        var hashId = generateHash(file);
-                        list.push({ hashId, name: e, path: file, tumbnail: getTumbnailPath(file) });
-                    }
+    if (fs.existsSync(mediaPath)) {
+        let collection = fs.readdirSync(mediaPath);
+        for (let x = 0; x < collection.length; x++) {
+            let file = mediaPath + '/' + collection[x];
+            const stat = fs.statSync(file)
+            if (stat.isDirectory()) {
+                list = [...list, ...readDir(file)];
+            } else {
+                let ext = path.extname(file);
+                if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
+                    var hashId = generateHash(file);
+                    list.push({ hashId, name: collection[x], path: file, tumbnail: getTumbnailPath(file) });
                 }
-
-            });
-        }
+            }
+        };
+    }
     return list;
 }
+
+
+function findMedibyHashID(mediaPath, _hashId) {
+    let media = {};
+    if (fs.existsSync(mediaPath)) {
+        let collection = fs.readdirSync(mediaPath);
+        for (let x = 0; x < collection.length; x++) {
+            let file = mediaPath + '/' + collection[x];
+            const stat = fs.statSync(file)
+            if (stat.isDirectory()) {
+                media = findMedibyHashID(file);
+                if (media.hashId != undefined) break;
+            } else {
+                let ext = path.extname(file);
+                if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
+                    var hashId = generateHash(file);
+                    if (_hashId == hashId) {
+                        media = { hashId, name: collection[x], path: file, tumbnail: getTumbnailPath(file) };
+                        break;
+                    }
+                }
+            }
+        };
+    }
+    return media;
+}
+
 
 function readDirOneLv(mediaPath) {
     let list = [];
@@ -70,6 +98,20 @@ function generateMapMedia() {
     return mediaList;
 }
 
+function findMediaPath(hashId, repo = null) {
+    let mediaPath = '';
+    if (repo === null) {
+        let mediaPaths = mediaRepo.getMediaPaths();
+        for (let x = 0; x < mediaPaths.length; x++) {
+            mediaPath = findMedibyHashID(mediaPaths[x].path, hashId).path;
+            if (mediaPath) break;
+        }
+    } else {
+        mediaPath = findMedibyHashID(repo, hashId).path;
+    }
+    return mediaPath;
+}
+
 function generateTumbnail(mediaPath) {
     const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
     const ffprobePath = require('@ffprobe-installer/ffprobe').path;
@@ -77,11 +119,13 @@ function generateTumbnail(mediaPath) {
     ffmpeg.setFfmpegPath(ffmpegPath);
     ffmpeg.setFfprobePath(ffprobePath);
 
+
     //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
     let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
     let tumbnail = tumbnailPath + tumnailName;
-
+    
+    console.log("vamos a ver aqui", config.mediaObjectMapper);
     fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
@@ -103,7 +147,8 @@ function generateTumbnail(mediaPath) {
                             });
                     }
                 }).catch(err => console.log('GetPoster error', err))
-        }
+               
+        } 
     });
 
 }
@@ -114,6 +159,6 @@ function getTumbnailPath(mediaPath) {
     return tumnailName.replace('/', '');
 }
 
-module.exports = { readDir, readDirOneLv, generateTumbnail, generateMapMedia };
+module.exports = { readDir, readDirOneLv, generateTumbnail, generateMapMedia, findMediaPath };
 
 
