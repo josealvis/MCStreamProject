@@ -13,6 +13,5 @@ test("It should return data", ()=>{
     data  = config.mediaObjectMapper.getMediabyIdhash("rp3m6");
     expect(data.hashId).toBe("rp3m6");
     expect(data.path != undefined).toBe(true);
-
 })
 
