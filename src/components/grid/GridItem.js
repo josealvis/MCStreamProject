@@ -11,7 +11,13 @@ export class GridItem extends React.Component {
         this.state = { tumbnailIsReady: false }
         this.clickHandle = this.clickHandle.bind(this);
         this.tumbNailIsReadyHandle = this.tumbNailIsReadyHandle.bind(this);
+        this.myRef = React.createRef();
+        this.focusElement =this.focusElement.bind(this);
     }
+
+    focusElement() {
+        this.myRef.current.focus();
+      }
 
     componentDidMount() {
         var tumbnailIsReady = setInterval(() => {
@@ -41,7 +47,7 @@ export class GridItem extends React.Component {
 
     render() {
         return (
-            <div className="gid-media-card" onClick={this.clickHandle}>
+            <div className="gid-media-card" tabindex={this.props.tabindex} onClick={this.clickHandle} ref={this.myRef}  >
                 <div className="media-img">
                 <div className="grid-card-title" alt={this.props.title.substring(0, 40)}><span>{this.props.title.substring(0, 10)} </span></div>
                 {this.state.tumbnailIsReady ?

@@ -54,12 +54,12 @@ describe('readDir', () => {
 
     test('list length should be 6', () => { expect(list.length).toBe(6); });
 
-    describe('List element has to  have all props', () => {
+    describe('List', () => {
         list.map(el => {
-            test('hashId prop has to be define', () => { expect(el.hashId != undefined).toBe(true); })
-            test('name porp has to be define', () => { expect(el.name != undefined).toBe(true); })
-            test('path prop has to be define', () => { expect(el.path != undefined).toBe(true); })
-            test('tumbnail prop has to be define', () => { expect(el.tumbnail != undefined).toBe(true); })
+            test('hashId prop has to be defined', () => { expect(el.hashId != undefined).toBe(true); })
+            test('name porp has to be defined', () => { expect(el.name != undefined).toBe(true); })
+            test('path prop has to be defined', () => { expect(el.path != undefined).toBe(true); })
+            test('tumbnail prop has to be defined', () => { expect(el.tumbnail != undefined).toBe(true); })
         })
     });
 
