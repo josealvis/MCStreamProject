@@ -23,6 +23,7 @@
 }
 
 .gid-media-card{
+    margin-top: 5px !important;
     height: 350px;
     background-color:#545454;
     min-width: 220px;
@@ -32,6 +33,17 @@
     justify-content: center;
     display: flex;
     margin: 3px;
+
+}
+.gid-media-card:focus{
+    margin-top: 0!important;
+    min-height:  360px;
+    max-height:  360px;
+    outline: none;
+    border-radius: 2px;
+    border: 5px solid #FAFAFA !important;
+    /* border-top: 10px solid white !important;
+    border-bottom: 10px solid white !important; */
 
 }
 
@@ -85,3 +97,4 @@
 .hide{
     display: none;
 }
+
