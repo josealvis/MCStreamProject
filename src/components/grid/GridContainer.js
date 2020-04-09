@@ -5,6 +5,7 @@ import './grid.css'
 import axios from 'axios';
 
 import { GridItem } from './GridItem';
+import { MediaRiel } from './MediaRiel';
 import { VideoPlayer } from '../VideoPlayer/VideoPlayer';
 
 import FormGroup from '@material-ui/core/FormGroup';
@@ -25,28 +26,27 @@ export class GridContainer extends React.Component {
             nsfw: false,
             selectedCardId: "",
             elements: [],
-            tabIndex:0
+            tabIndex: -1
         };
-        
-  
+
+
 
 
         this.openMedia = this.openMedia.bind(this);
         this.nsfwToggle = this.nsfwToggle.bind(this);
-        this.selectCar = this.selectCar.bind(this);
+        this.selectCard = this.selectCard.bind(this);
         this.refCallBack = this.refCallBack.bind(this);
+        this.moveRight = this.moveRight.bind(this);
+        this.moveLeft = this.moveLeft.bind(this);
+        this.setMediaStates = this.setMediaStates.bind(this);
     }
 
     getData(scope) {
         axios.get('/getDataObject')
             .then(function (response) {
                 // handle success
-
-                console.log(response);
-                storage.repos = response.data;
-                scope.setState({ mediaList: response.data })
-
-
+                storage.repos = response.data.slice(0, 1);
+                scope.setState({ mediaList: storage.repos })
             })
         // axios.get('/getMediaList/?rowNum=' + this.state.rowNum)
         //     .then(function (response) {
@@ -62,11 +62,14 @@ export class GridContainer extends React.Component {
         //this.setState({ mediaList: "this.res" })
     }
 
-    openMedia(vidMetaData) {
+    setMediaStates(vidMetaData) {
         this.setState({ idHash: vidMetaData.hashId });
         this.setState({ videoTitle: vidMetaData.name });
-        this.setState({ modal: true });
+    }
 
+    openMedia(vidMetaData, modal = true) {
+        if (vidMetaData != undefined) this.setMediaStates(vidMetaData);
+        this.setState({ modal });
     }
 
     closeMediaHandle() {
@@ -78,23 +81,56 @@ export class GridContainer extends React.Component {
         this.setState({ nsfw: !this.state.nsfw });
     }
 
-    selectCar(ref) {
+    selectCard(ref) {
         let elements = this.state.elements;
         let tabIndex = this.state.tabIndex;
         elements[tabIndex].myRef.current.focus();
-        this.state.tabIndex +=1 ;
+        this.state.tabIndex += 1;
     }
 
-    refCallBack(el) {
+    moveRight(ref) {
         let elements = this.state.elements;
-        elements.push(el)
-        this.setState({ elements});
+        let tabIndex = this.state.tabIndex;
+        if (tabIndex < elements.length - 1) this.state.tabIndex = this.state.tabIndex + 1;
+        if (tabIndex >= 0 && tabIndex <= elements.length - 1) {
+            elements[this.state.tabIndex].myRef.current.focus();
+            this.setState({ idHash: elements[this.state.tabIndex].props.hashId });
+            this.setState({ videoTitle: elements[this.state.tabIndex].props.name });
+        }
+    }
 
+    moveLeft(ref) {
+
+        let elements = this.state.elements;
+        let tabIndex = this.state.tabIndex;
+        if (tabIndex > 0) this.state.tabIndex = this.state.tabIndex - 1;
+        if (tabIndex >= 0 && tabIndex <= elements.length - 1) {
+            elements[this.state.tabIndex].myRef.current.focus();
+            this.setState({ idHash: elements[this.state.tabIndex].props.hashId });
+            this.setState({ videoTitle: elements[this.state.tabIndex].props.name });
+        }
+
+    }
+
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.setState({ modal: true });
+        }
+    }
+
+
+    refCallBack(el) {
+
+        if (el) {
+            let elements = this.state.elements;
+            elements.push(el)
+            this.setState({ elements });
+        }
     }
 
     render() {
         return (
-            <div className="media-grid-container" ref='ok'>
+            <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                 <VideoPlayer videohash={this.state.idHash}
                     isOpen={this.state.modal}
                     closeModal={() => this.closeMediaHandle()}
@@ -105,26 +141,12 @@ export class GridContainer extends React.Component {
                     }
                     label="NSFW mode"
                 />
-                {this.state.mediaList.map(car => (<div className="repoContainer">
-                    <div className="carrusel-top-bar">
-                        <h2 >{car.repo}</h2>
-                        <button onClick={this.selectCar}  > next</button>
-                    </div>
-                    <div className="grid-container">
-                        {car.media.map((el, i) => (<>{!el.nsfw || this.state.nsfw ? <GridItem
-                            ref={this.refCallBack}
-                            tabindex={i}
-                            key={el.hashId.toString()}
-                            callback={this.openMedia}
-                            hashId={el.hashId}
-                            fileData={el}
-                            img={el.tumbnail}
-                            title={el.name}
-                        /> : <></>}
-                        </>))}
-                    </div>
-                </div>))}
-            </div>
+                <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
+                    {this.state.mediaList.map((car,i) => (
+                        <MediaRiel key={i} nsfwMode={this.state.nsfw} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
+                        </MediaRiel>))}
+                </div>
+            </div >
         );
     }
 }
