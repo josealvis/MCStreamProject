@@ -34,10 +34,6 @@ export class GridContainer extends React.Component {
 
         this.openMedia = this.openMedia.bind(this);
         this.nsfwToggle = this.nsfwToggle.bind(this);
-        this.selectCard = this.selectCard.bind(this);
-        this.refCallBack = this.refCallBack.bind(this);
-        this.moveRight = this.moveRight.bind(this);
-        this.moveLeft = this.moveLeft.bind(this);
         this.setMediaStates = this.setMediaStates.bind(this);
     }
 
@@ -45,7 +41,7 @@ export class GridContainer extends React.Component {
         axios.get('/getDataObject')
             .then(function (response) {
                 // handle success
-                storage.repos = response.data.slice(0, 1);
+                storage.repos = response.data;
                 scope.setState({ mediaList: storage.repos })
             })
         // axios.get('/getMediaList/?rowNum=' + this.state.rowNum)
@@ -81,50 +77,9 @@ export class GridContainer extends React.Component {
         this.setState({ nsfw: !this.state.nsfw });
     }
 
-    selectCard(ref) {
-        let elements = this.state.elements;
-        let tabIndex = this.state.tabIndex;
-        elements[tabIndex].myRef.current.focus();
-        this.state.tabIndex += 1;
-    }
-
-    moveRight(ref) {
-        let elements = this.state.elements;
-        let tabIndex = this.state.tabIndex;
-        if (tabIndex < elements.length - 1) this.state.tabIndex = this.state.tabIndex + 1;
-        if (tabIndex >= 0 && tabIndex <= elements.length - 1) {
-            elements[this.state.tabIndex].myRef.current.focus();
-            this.setState({ idHash: elements[this.state.tabIndex].props.hashId });
-            this.setState({ videoTitle: elements[this.state.tabIndex].props.name });
-        }
-    }
-
-    moveLeft(ref) {
-
-        let elements = this.state.elements;
-        let tabIndex = this.state.tabIndex;
-        if (tabIndex > 0) this.state.tabIndex = this.state.tabIndex - 1;
-        if (tabIndex >= 0 && tabIndex <= elements.length - 1) {
-            elements[this.state.tabIndex].myRef.current.focus();
-            this.setState({ idHash: elements[this.state.tabIndex].props.hashId });
-            this.setState({ videoTitle: elements[this.state.tabIndex].props.name });
-        }
-
-    }
-
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             this.setState({ modal: true });
-        }
-    }
-
-
-    refCallBack(el) {
-
-        if (el) {
-            let elements = this.state.elements;
-            elements.push(el)
-            this.setState({ elements });
         }
     }
 

@@ -1,6 +1,10 @@
 import React from 'react';
 import './grid.css'
 import { GridItem } from './GridItem';
+import { Button  }  from '@material-ui/core/';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import Divider from '@material-ui/core/Divider';
 
 export class MediaRiel extends React.Component {
 
@@ -38,11 +42,13 @@ export class MediaRiel extends React.Component {
     moveRight(ref) {
         
         let elements = this.state.elements;
-        console.log(elements)
+        console.log(elements);
+        console.log("tabindex: ",this.state.tabIndex);
         let tabIndex = this.state.tabIndex;
         if (tabIndex < elements.length - 1) {
-        let nextElement = elements.findIndex((el,i)=>i>this.state.tabIndex && !el.hide()); 
-        this.state.tabIndex = nextElement>0?nextElement:tabIndex;
+        let nextElement = elements.findIndex((el,i)=>i>this.state.tabIndex && !el.hide());
+        console.log("nextEl ", nextElement) 
+        this.state.tabIndex = nextElement>=0?nextElement:tabIndex;
         }
         if (this.state.tabIndex >= 0 && this.state.tabIndex <= elements.length - 1) {
             elements[this.state.tabIndex].myRef.current.focus();
@@ -93,11 +99,14 @@ export class MediaRiel extends React.Component {
                 <div className="repoContainer">
                     <div className="carrusel-top-bar">
                         <h2 >{this.props.repoName}</h2>
-                        <button onClick={this.moveLeft}  > back</button>
-                        <button onClick={this.moveRight}  > next</button>
+                    </div>
+                    <div className="btn-nav">
+                    <Button  onClick={this.moveLeft} className="btn-nav-style" ><ArrowBackIosIcon/>Move Left</Button>
+                    <Button  onClick={this.moveRight} className="btn-nav-style" >Move Right<ArrowForwardIosIcon/></Button>
+                    
                     </div>
                     <div className="grid-container" >
-                        {this.props.media.map((el, i) => (<><GridItem
+                        {this.props.media.length>0? this.props.media.map((el, i) => (<><GridItem
                         className={(!this.props.nsfwMode && el.nsfw? "hide":"") }
                             ref={this.refCallBack}
                             tabIndex={i}
@@ -108,7 +117,8 @@ export class MediaRiel extends React.Component {
                             img={el.tumbnail}
                             title={el.name}
                         />
-                        </>))}
+                        </>)): 
+                        <h5>There is nothing here.</h5>}
                     </div>
                 </div>
         );
