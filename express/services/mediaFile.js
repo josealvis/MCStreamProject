@@ -126,8 +126,8 @@ function generateTumbnail(mediaPath) {
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
     let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
     let tumbnail = tumbnailPath + tumnailName;
-    
-    console.log("vamos a ver aqui", config.mediaObjectMapper);
+
+
     fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
@@ -139,7 +139,11 @@ function generateTumbnail(mediaPath) {
                         var posterUrl = "http://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
                         saveImageToDisk(posterUrl, tumbnailPath + tumnailName);
                     } else {
+
                         var proc = new ffmpeg(mediaPath)
+                            .on('error', function (err, stdout, stderr) {
+                                console.log('Cannot process video: ' + err.message);
+                            })
                             .screenshots({
                                 count: 1,
                                 //timestamps: [30.5, '50%', '01:10.123'],
@@ -148,9 +152,11 @@ function generateTumbnail(mediaPath) {
                                 size: '620x480'
                             });
                     }
-                }).catch(err => console.log('GetPoster error', err))
-               
-        } 
+                }).catch(err => {
+                    console.log('GetPoster error', err)
+                }).finally(() => console.log("termino el callback"))
+
+        }
     });
 
 }

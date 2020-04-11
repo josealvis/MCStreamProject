@@ -74,9 +74,15 @@ router.get('/getDataObject', function (req, res) {
   res.send(mediaList);
 })
 
+
 router.post('/generateTumbnail', function (req, res) {
-  let data = req.body;
-  data.map(el => rd.generateTumbnail(el.path));
+  let { hashId } = req.body;
+  console.log("generate thumbnail called,", hashId);
+  let obj = conf.mediaObjectMapper.getMediabyIdhash(hashId);
+  console.log("path: ",obj.path);
+  if(obj.path)rd.generateTumbnail(obj.path);
+  console.log("ok termino ");
+  res.send("ok");
 });
 
 router.get('/tumbnail', function (req, res) {

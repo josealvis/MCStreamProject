@@ -2,12 +2,12 @@
     "mediaPaths": [
         {
             "path": "C:/Users/Nathalie lapaix/Downloads",
-            "displayName": "main repo",
+            "displayName": "Main repo",
             "NSFW": "false"
         },
         {
             "path": "D:/Viedeos/Explorer",
-            "displayName": "repo 2",
+            "displayName": "Repo 2",
             "NSFW": "true"
         },
         {

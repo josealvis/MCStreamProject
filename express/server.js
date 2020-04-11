@@ -6,7 +6,7 @@ var app = express();
 var mediaRouter = require('./Routers/media');
 var configRouter = require('./Routers/config');
 
-var  loggerMiddlewere = (req, res, next)=> {console.log("Api called!"); next();};
+var  loggerMiddlewere = (req, res, next)=> {/*console.log("Api called!");*/ next();};
 
 app.use(cors());
 app.use(loggerMiddlewere);
