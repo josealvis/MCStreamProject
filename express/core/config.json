@@ -11,9 +11,9 @@
             "NSFW": "true"
         },
         {
-            "path": "E:/JoseAlvis/videos",
+            "path": "E:/JoseAlvis/videos/Internet Explorer",
             "displayName": "External Driver",
-            "NSFW": "false"
+            "NSFW": "true"
         }
     ]
 }

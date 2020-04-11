@@ -79,17 +79,19 @@ router.post('/generateTumbnail', function (req, res) {
   let { hashId } = req.body;
   console.log("generate thumbnail called,", hashId);
   let obj = conf.mediaObjectMapper.getMediabyIdhash(hashId);
-  console.log("path: ",obj.path);
-  if(obj.path)rd.generateTumbnail(obj.path);
-  console.log("ok termino ");
-  res.send("ok");
+  if(obj && obj.path){
+     rd.generateTumbnail(obj.path).then(el=>{
+      console.log("El web Service termino");
+      res.send("ok");
+     });
+  }
+  else  res.send("Shuld return a sample thumbnail.");
 });
 
 router.get('/tumbnail', function (req, res) {
   let name = req.query.name;
   const tumbnailPath = path.join(__dirname, '../tumbnails');
-  res.sendFile(tumbnailPath + '/' + name)
-
+  res.sendFile(tumbnailPath + '/' + name);
 })
 
 module.exports = router;

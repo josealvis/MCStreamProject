@@ -9,7 +9,7 @@ export class MediaRiel extends React.Component {
 
     constructor(props) {
         super(props);
-        this.BASE_NUM_ELMENT_ROW = 3;
+        this.BASE_NUM_ELMENT_ROW = 7;
         this.state = {
             modal: false,
             rowNum: 1,

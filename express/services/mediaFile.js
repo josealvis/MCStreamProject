@@ -121,23 +121,19 @@ function generateTumbnail(mediaPath) {
     ffmpeg.setFfmpegPath(ffmpegPath);
     ffmpeg.setFfprobePath(ffprobePath);
 
-
-    //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
     let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
-    let tumbnail = tumbnailPath + tumnailName;
+    let tumbnail = tumbnailPath + tumnailName; 
 
-
-    fs.access(tumbnail, fs.F_OK, (err) => {
+    let resolveFn = (res, rej) =>fs.access(tumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
-
-            getPoster(fileName)
+             getPoster(fileName)
                 .then(function (response) {
                     // handle success
                     if (response.data.total_results > 0 && response.data.results[0].poster_path !== null) {
                         var posterUrl = "http://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
-                        saveImageToDisk(posterUrl, tumbnailPath + tumnailName);
+                        saveImageToDisk(posterUrl, tumbnailPath + tumnailName).finally(()=>res());
                     } else {
 
                         var proc = new ffmpeg(mediaPath)
@@ -146,19 +142,27 @@ function generateTumbnail(mediaPath) {
                             })
                             .screenshots({
                                 count: 1,
-                                //timestamps: [30.5, '50%', '01:10.123'],
                                 filename: tumnailName,
                                 folder: tumbnailPath,
                                 size: '620x480'
-                            });
+                            }).on('end', function() {
+                                console.log('Finished processing');
+                                res();
+                              })
+
+
                     }
                 }).catch(err => {
-                    console.log('GetPoster error', err)
-                }).finally(() => console.log("termino el callback"))
+                    console.log('GetPoster error', err);
+                })
 
+        }else{
+            console.log("Thumbnail alredy existed.")
+            res();
         }
-    });
+    })
 
+    return new Promise(resolveFn)
 }
 
 function getTumbnailPath(mediaPath) {
