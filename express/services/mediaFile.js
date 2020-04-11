@@ -33,7 +33,6 @@ function readDir(mediaPath) {
     return list;
 }
 
-
 function findMedibyHashID(mediaPath, _hashId) {
     let media = {};
     if (fs.existsSync(mediaPath)) {
@@ -59,7 +58,6 @@ function findMedibyHashID(mediaPath, _hashId) {
     return media;
 }
 
-
 function readDirOneLv(mediaPath) {
     let list = [];
     fs.readdirSync(mediaPath).forEach(function (e) {
@@ -83,11 +81,11 @@ function generateMapMedia() {
     let mediaList = [];
     let mediaPaths = mediaRepo.getMediaPaths();
     for (let x = 0; x < mediaPaths.length; x++) {
-        let nsfw = mediaPaths[x].NSFW === true;
+        let nsfw = mediaPaths[x].NSFW == "true";
         mediaList.push({
             repo: mediaPaths[x].displayName,
             path: mediaPaths[x].path,
-            nsfw: mediaPaths[x].NSFW,
+            nsfw: nsfw,
             media: readDir(mediaPaths[x].path).map(el => {
                 el.nsfw = nsfw ? nsfw : isNSFWMedia(el.name);
                 el.tumbnail = "/tumbnail/?name=" + el.tumbnail;
@@ -149,8 +147,6 @@ function generateTumbnail(mediaPath) {
                                 console.log('Finished processing');
                                 res();
                               })
-
-
                     }
                 }).catch(err => {
                     console.log('GetPoster error', err);

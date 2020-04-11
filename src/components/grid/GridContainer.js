@@ -44,18 +44,11 @@ export class GridContainer extends React.Component {
                 storage.repos = response.data;
                 scope.setState({ mediaList: storage.repos })
             })
-        // axios.get('/getMediaList/?rowNum=' + this.state.rowNum)
-        //     .then(function (response) {
-        //         // handle success
-        //         scope.setState({ mediaList: response.data })
-        //     })
     }
 
 
     componentDidMount() {
         this.getData(this);
-
-        //this.setState({ mediaList: "this.res" })
     }
 
     setMediaStates(vidMetaData) {

@@ -49,8 +49,6 @@ export class GridItem extends React.Component {
         if (!this.isHide()) this.generateTumbnail();
     }
 
-
-
     generateTumbnail() {
         let scope = this;
         if(!this.state.tumbnailIsReady){
@@ -58,8 +56,8 @@ export class GridItem extends React.Component {
             .then(function (response) {
                 scope.thumbNailHasBeenCalled = true;
                 scope.setState({ tumbnailIsReady: true })
-                console.log(scope.props.fileData.hashId);
-                console.log("response: ", response);
+                //console.log(scope.props.fileData.hashId);
+                //console.log("response: ", response);
             })
             .catch(function (error) {
                 console.log(error);

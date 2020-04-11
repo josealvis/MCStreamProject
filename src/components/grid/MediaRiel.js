@@ -125,19 +125,18 @@ export class MediaRiel extends React.Component {
 
                 </div>
                 <div className="grid-container" >
-                    {this.state.media.length > 0 ? this.state.media.map((el, i) => (<><GridItem
+                    {this.state.media.length > 0 ? this.state.media.map((el, i) => (<GridItem
                         className={(!this.props.nsfwMode && el.nsfw ? "hide" : "")}
                         ref={this.refCallBack}
                         nsfwMode={this.props.nsfwMode}
                         tabIndex={i}
-                        key={el.hashId.toString()}
+                        key={el.hashId}
                         callback={this.props.openMedia}
                         hashId={el.hashId}
                         fileData={el}
                         img={el.tumbnail}
                         title={el.name}
-                    />
-                    </>)) :
+                    />)) :
                         <h5>There is nothing here.</h5>}
                 </div>
             </div>
