@@ -6,6 +6,11 @@
             "NSFW": "false"
         },
         {
+            "path": "E:/JoseAlvis/videos/Movies",
+            "displayName": "Movies",
+            "NSFW": "false"
+        },
+        {
             "path": "D:/Viedeos/Explorer",
             "displayName": "Repo 2",
             "NSFW": "true"

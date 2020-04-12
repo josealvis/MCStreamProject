@@ -24,7 +24,7 @@
     color: white;
 }
 
-.gid-media-card{
+.grid-media-card{
     margin-top: 5px !important;
     height: 350px;
     background-color:#545454;
@@ -32,12 +32,12 @@
     max-width: 220px;
     overflow: hidden; 
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; 
     display: flex;
     margin: 3px;
 
 }
-.gid-media-card:focus{
+.grid-media-card:focus{
     margin-top: 0!important;
     min-height:  360px;
     max-height:  360px;
@@ -71,7 +71,7 @@
   color: white;
   background-color: #212121;
   background-color: rgba(0, 0, 0, 0.75);
-  width: 100%;
+  min-width: 100%; 
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.00em;
@@ -87,14 +87,27 @@
     position: relative; 
     margin-left: auto;
     margin-right: auto;
+}
 
+.full-width{
+    min-width: 100%; 
+}
+ 
+.media-img .snipper{
+    min-height: 100%;
+    flex-flow: column;
+    justify-content: center; 
+    align-items: center;
+    display: flex;
+    align-content: center;
+    min-width: 350px; 
 }
 
 .media-img img{
-
     max-height: 350px;
     min-height: 350px;
-    object-fit: cover;    
+    min-width: 220px;
+    object-fit: cover; 
 }
 
 .repoContainer {
