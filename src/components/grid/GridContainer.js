@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import { GridItem } from './GridItem';
 import { MediaRiel } from './MediaRiel';
+import { MediaContainer } from './MediaContainer';
 import { VideoPlayer } from '../VideoPlayer/VideoPlayer';
 
 import FormGroup from '@material-ui/core/FormGroup';
@@ -90,9 +91,16 @@ export class GridContainer extends React.Component {
                     label="NSFW mode"
                 />
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
-                    {this.state.mediaList.map((car,i) => (
+                    {/* {this.state.mediaList.map((car,i) => (
                         <MediaRiel key={i} nsfwMode={this.state.nsfw} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
-                        </MediaRiel>))}
+                        </MediaRiel>))} */}
+                    {this.state.mediaList[0]?<MediaContainer
+                        nsfwMode={this.state.nsfw}
+                        media={this.state.mediaList[0].media}
+                        repoName={this.state.mediaList[0].repo}
+                        openMedia={this.openMedia}>
+                    </MediaContainer>:<></>}
+
                 </div>
             </div >
         );

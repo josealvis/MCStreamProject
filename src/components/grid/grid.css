@@ -24,8 +24,34 @@
     color: white;
 }
 
+
+
+.media-container{
+    /* padding-top: 100px; */
+     max-width: 90%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    padding-top: 10px;
+    min-height: 395px;
+     flex-wrap: wrap;
+     /* margin-left: auto;
+     margin-right: auto; */
+    /* overflow: hidden; */
+    /* overflow-x: scroll;
+    overflow-y: scroll; */
+    color: white;
+}
+
+.media-container-center{
+    display: flex;
+    justify-content: center;
+}
+
 .grid-media-card{
     margin-top: 5px !important;
+    margin-bottom: 5px !important;
     height: 350px;
     background-color:#545454;
     min-width: 220px;
@@ -39,11 +65,13 @@
 }
 .grid-media-card:focus{
     margin-top: 0!important;
+    margin-bottom: 0 !important;
     min-height:  360px;
     max-height:  360px;
     outline: none;
     border-radius: 2px;
     border: 5px solid #FAFAFA !important;
+
     /* border-top: 10px solid white !important;
     border-bottom: 10px solid white !important; */
 
@@ -111,9 +139,11 @@
 }
 
 .repoContainer {
-    display: flex; 
-    justify-content: left; 
+    display: flex; /**/
+    justify-content: center; 
+    align-content: center; 
     flex-direction: column; 
+
 }
 
 .repoContainer h2 {
