@@ -1,9 +1,10 @@
 import React from 'react';
 import './grid.css'
 import { GridItem } from './GridItem';
-import { Button } from '@material-ui/core/';
+import { Button, IconButton } from '@material-ui/core/';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 export class MediaRiel extends React.Component {
 
@@ -30,17 +31,21 @@ export class MediaRiel extends React.Component {
 
 
     componentDidMount() {
-        let lastIndex = 0;// this.BASE_NUM_ELMENT_ROW;
-        let lementToBeDisplayed =0;
-        this.props.media.forEach((p,i)=>{
-            if(!p.nsfw &&  lementToBeDisplayed<this.BASE_NUM_ELMENT_ROW){
-                lementToBeDisplayed++;
-                lastIndex=i+1;
-            }
-           // if(this.BASE_NUM_ELMENT_ROW==lementToBeDisplayed)lastIndex=i+1;
-        })
-        lastIndex =  lastIndex> this.BASE_NUM_ELMENT_ROW?lastIndex:this.BASE_NUM_ELMENT_ROW;
-        this.setState({ media: this.props.media.slice(0, lastIndex) });
+         let lastIndex = 0;
+        lastIndex = this.BASE_NUM_ELMENT_ROW;//lastIndex > this.BASE_NUM_ELMENT_ROW ? lastIndex : this.BASE_NUM_ELMENT_ROW;
+        this.setState({ media: this.props.media.slice(0, lastIndex)});
+    }
+    componentWillUpdate(prevProps){
+        if (prevProps.media.length>0 && prevProps.media != this.props.media ){
+            this.setState({ media:[]})
+        }  
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.media.length>0 && prevProps.media != this.props.media ){
+            this.setState({ tabIndex: -1});
+            this.setState({ elements: []},()=>this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELMENT_ROW)}));
+        }
     }
 
     selectCard(ref) {
@@ -55,7 +60,7 @@ export class MediaRiel extends React.Component {
         console.log(elements);
         console.log("tabindex: ", this.state.tabIndex);
         let tabIndex = this.state.tabIndex;
-        if(tabIndex == elements.length - 2)  this.pushMediaElement();
+        if (tabIndex == elements.length - 2) this.pushMediaElement();
         if (tabIndex < elements.length - 1) {
             let nextElement = elements.findIndex((el, i) => i > this.state.tabIndex && !el.isHide());
             console.log("nextEl ", nextElement)
@@ -89,18 +94,17 @@ export class MediaRiel extends React.Component {
         }
     }
 
-    pushMediaElement(num =1) {
-        num = num >0?num:1;
+    pushMediaElement(num = 1) {
+        num = num > 0 ? num : 1;
         var media = this.state.media;
         if (media.length < this.props.media.length) {
-            media = [...media, ...this.props.media.slice(media.length, (media.length+num))];
+            media = [...media, ...this.props.media.slice(media.length, (media.length + num))];
             this.setState({ media });
         }
     }
 
 
     refCallBack(el) {
-
         if (el) {
             let elements = this.state.elements;
             //el.hide = () => !this.props.nsfwMode && el.props.fileData.nsfw;
@@ -118,15 +122,17 @@ export class MediaRiel extends React.Component {
             <div className="repoContainer">
                 <div className="carrusel-top-bar">
                     <h2 >{this.props.repoName}</h2>
+                    <div className="right-btns"><IconButton color="primary" aria-label="add to shopping cart">
+                        <MoreHorizIcon />
+                    </IconButton>
+                    </div>
                 </div>
                 <div className="btn-nav">
                     <Button onClick={this.moveLeft} className="btn-nav-style" ><ArrowBackIosIcon />Move Left</Button>
                     <Button onClick={this.moveRight} className="btn-nav-style" >Move Right<ArrowForwardIosIcon /></Button>
-
                 </div>
                 <div className="grid-container" >
                     {this.state.media.length > 0 ? this.state.media.map((el, i) => (<GridItem
-                        className={(!this.props.nsfwMode && el.nsfw ? "hide" : "")}
                         ref={this.refCallBack}
                         nsfwMode={this.props.nsfwMode}
                         tabIndex={i}

@@ -27,23 +27,21 @@ export class GridContainer extends React.Component {
             nsfw: false,
             selectedCardId: "",
             elements: [],
-            tabIndex: -1
+            tabIndex: -1,
+            mediaContainerMode: false,
         };
-
-
-
 
         this.openMedia = this.openMedia.bind(this);
         this.nsfwToggle = this.nsfwToggle.bind(this);
         this.setMediaStates = this.setMediaStates.bind(this);
+        this.nsfwStateHandler = this.nsfwStateHandler.bind(this);
     }
 
     getData(scope) {
         axios.get('/getDataObject')
             .then(function (response) {
-                // handle success
-                storage.repos = response.data;
-                scope.setState({ mediaList: storage.repos })
+                storage.setRepos(response.data);
+                scope.nsfwStateHandler();
             })
     }
 
@@ -67,14 +65,39 @@ export class GridContainer extends React.Component {
         this.setState({ modal: false });
     }
 
+    nsfwStateHandler() {
+        let nsfw = this.state.nsfw;
+        console.log("store repo: ", storage.repos)
+        let repos = storage.getRepos();
+        repos = repos.reduce((el, next) => {
+            if (nsfw || !next.nsfw) {
+                if (next.media.length>0 && !nsfw) {
+                    next.media =next.media.reduce((ac, i) => {
+                        if (!i.nsfw) ac = [...ac, i];
+                        return ac;
+                    }, []);
+                }
+                el = [...el, next];
+            }
+            return el;
+        }, []);
+        console.log(repos);
+        this.setState({ mediaList: repos})
+    }
+
     nsfwToggle() {
-        this.setState({ nsfw: !this.state.nsfw });
+        let nsfw = !this.state.nsfw;
+        this.setState({ nsfw},this.nsfwStateHandler);
     }
 
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             this.setState({ modal: true });
         }
+    }
+
+    openDirHandler(repoName) {
+
     }
 
     render() {
@@ -91,15 +114,15 @@ export class GridContainer extends React.Component {
                     label="NSFW mode"
                 />
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
-                    {/* {this.state.mediaList.map((car,i) => (
-                        <MediaRiel key={i} nsfwMode={this.state.nsfw} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
-                        </MediaRiel>))} */}
-                    {this.state.mediaList[0]?<MediaContainer
+                    {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
+                        <MediaRiel key={i} nsfwMode={true} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
+                        </MediaRiel>)) : <></>}
+                    {this.state.mediaContainerMode && this.state.mediaList[0] ? <MediaContainer
                         nsfwMode={this.state.nsfw}
                         media={this.state.mediaList[0].media}
                         repoName={this.state.mediaList[0].repo}
                         openMedia={this.openMedia}>
-                    </MediaContainer>:<></>}
+                    </MediaContainer> : <></>}
 
                 </div>
             </div >

@@ -10,7 +10,7 @@ export class MediaContainer extends React.Component {
     constructor(props) {
         super(props);
         this.BASE_NUM_ELMENT_ROW = 7;
-        this.PAGE_ELEMENT = 5;
+        this.PAGE_ELEMENT = 12;
         this.state = {
             modal: false,
             rowNum: 1,
@@ -18,6 +18,7 @@ export class MediaContainer extends React.Component {
             selectedCardId: "",
             elements: [],
             tabIndex: -1,
+            totalPages: Math.ceil(this.props.media.length / this.PAGE_ELEMENT),
             media: [],
             currentPage: 1
         };
@@ -33,17 +34,6 @@ export class MediaContainer extends React.Component {
 
 
     componentDidMount() {
-        let lastIndex = 0;// this.BASE_NUM_ELMENT_ROW;
-        let lementToBeDisplayed = 0;
-        this.props.media.forEach((p, i) => {
-            if (!p.nsfw && lementToBeDisplayed < this.BASE_NUM_ELMENT_ROW) {
-                lementToBeDisplayed++;
-                lastIndex = i + 1;
-            }
-            // if(this.BASE_NUM_ELMENT_ROW==lementToBeDisplayed)lastIndex=i+1;
-        })
-        lastIndex = lastIndex > this.BASE_NUM_ELMENT_ROW ? lastIndex : this.BASE_NUM_ELMENT_ROW;
-        //this.setState({ media: this.props.media.slice(0, PAGE_ELEMENT) });
         this.paginationHandler(1);
     }
 
@@ -72,7 +62,7 @@ export class MediaContainer extends React.Component {
     }
 
     paginationHandler(pageNumber) {
-        let total = Math.ceil(this.props.media.length / this.PAGE_ELEMENT);
+        let total = this.state.totalPages;//Math.ceil(this.props.media.length / this.PAGE_ELEMENT);
         let starAt =pageNumber-1;
         if (pageNumber>0 && pageNumber <= total) {
             this.setState({ currentPage: pageNumber });
@@ -81,7 +71,6 @@ export class MediaContainer extends React.Component {
         } 
             
     }
-
 
     moveLeft(ref) {
         let elements = this.state.elements;
@@ -143,15 +132,15 @@ export class MediaContainer extends React.Component {
                 </div>
                 <div className="btn-nav">
                     <Button onClick={this.back.bind(this)} className="btn-nav-style" ><ArrowBackIosIcon />Back</Button>
-                    <Button onClick={(n=>this.next.bind(this))(this.state.currentPage)} className="btn-nav-style" >Next<ArrowForwardIosIcon /></Button>
+                    {this.state.currentPage} OF {this.state.totalPages}
+                    <Button onClick={this.next.bind(this)} className="btn-nav-style" >Next<ArrowForwardIosIcon /></Button>
 
                 </div>
                 <div className="media-container-center">
                     <div className="media-container" >
                         {this.state.media.length > 0 ? this.state.media.map((el, i) => (<GridItem
-                            className={(!this.props.nsfwMode && el.nsfw ? "hide" : "")}
                             ref={this.refCallBack}
-                            nsfwMode={this.props.nsfwMode}
+                            nsfwMode={true}
                             tabIndex={i}
                             key={el.hashId}
                             callback={this.props.openMedia}

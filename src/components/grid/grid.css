@@ -156,7 +156,8 @@
 
 .carrusel-top-bar{
     display: flex; 
-    justify-content: left; 
+    /* justify-content: left; */
+    justify-content: space-between; 
     flex-direction: row;
     padding-left: 20px; 
 }
