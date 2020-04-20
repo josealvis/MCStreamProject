@@ -1,9 +1,10 @@
 import React from 'react';
 import './grid.css'
 import { GridItem } from './GridItem';
-import { Button } from '@material-ui/core/';
+import { Button, IconButton } from '@material-ui/core/';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import UndoIcon from '@material-ui/icons/Undo';
 
 export class MediaContainer extends React.Component {
 
@@ -63,13 +64,13 @@ export class MediaContainer extends React.Component {
 
     paginationHandler(pageNumber) {
         let total = this.state.totalPages;//Math.ceil(this.props.media.length / this.PAGE_ELEMENT);
-        let starAt =pageNumber-1;
-        if (pageNumber>0 && pageNumber <= total) {
+        let starAt = pageNumber - 1;
+        if (pageNumber > 0 && pageNumber <= total) {
             this.setState({ currentPage: pageNumber });
             starAt = (pageNumber - 1) * this.PAGE_ELEMENT;
             this.setState({ media: this.props.media.slice(starAt, starAt + this.PAGE_ELEMENT) });
-        } 
-            
+        }
+
     }
 
     moveLeft(ref) {
@@ -116,12 +117,12 @@ export class MediaContainer extends React.Component {
 
     }
 
-    next(){
-        this.paginationHandler(this.state.currentPage+1); 
+    next() {
+        this.paginationHandler(this.state.currentPage + 1);
     }
 
-    back(){
-        this.paginationHandler(this.state.currentPage-1);  
+    back() {
+        this.paginationHandler(this.state.currentPage - 1);
     }
 
     render() {
@@ -129,7 +130,11 @@ export class MediaContainer extends React.Component {
             <div className="repoContainer">
                 <div className="carrusel-top-bar">
                     <h2 >{this.props.repoName}</h2>
+                    <div>
+                        <IconButton onClick={this.props.goBackFn} className="btn-nav-style" ><UndoIcon /></IconButton>
+                    </div>
                 </div>
+
                 <div className="btn-nav">
                     <Button onClick={this.back.bind(this)} className="btn-nav-style" ><ArrowBackIosIcon />Back</Button>
                     {this.state.currentPage} OF {this.state.totalPages}

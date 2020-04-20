@@ -18,8 +18,10 @@ export class GridContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        storage.setComponetScope("GridContainerStates",this);
         this.state = {
             mediaList: [],
+            mediaDir: [],
             idHash: '',
             videoTitle: '',
             modal: false,
@@ -31,10 +33,12 @@ export class GridContainer extends React.Component {
             mediaContainerMode: false,
         };
 
+        
         this.openMedia = this.openMedia.bind(this);
         this.nsfwToggle = this.nsfwToggle.bind(this);
         this.setMediaStates = this.setMediaStates.bind(this);
         this.nsfwStateHandler = this.nsfwStateHandler.bind(this);
+        this.openDirHandler = this.openDirHandler.bind(this);
     }
 
     getData(scope) {
@@ -44,7 +48,6 @@ export class GridContainer extends React.Component {
                 scope.nsfwStateHandler();
             })
     }
-
 
     componentDidMount() {
         this.getData(this);
@@ -71,8 +74,8 @@ export class GridContainer extends React.Component {
         let repos = storage.getRepos();
         repos = repos.reduce((el, next) => {
             if (nsfw || !next.nsfw) {
-                if (next.media.length>0 && !nsfw) {
-                    next.media =next.media.reduce((ac, i) => {
+                if (next.media.length > 0 && !nsfw) {
+                    next.media = next.media.reduce((ac, i) => {
                         if (!i.nsfw) ac = [...ac, i];
                         return ac;
                     }, []);
@@ -82,12 +85,12 @@ export class GridContainer extends React.Component {
             return el;
         }, []);
         console.log(repos);
-        this.setState({ mediaList: repos})
+        this.setState({ mediaList: repos })
     }
 
     nsfwToggle() {
         let nsfw = !this.state.nsfw;
-        this.setState({ nsfw},this.nsfwStateHandler);
+        this.setState({ nsfw }, this.nsfwStateHandler);
     }
 
     handleKeyPress = (event) => {
@@ -97,7 +100,16 @@ export class GridContainer extends React.Component {
     }
 
     openDirHandler(repoName) {
+        // it should be an Id insted of repo
+        let mediaDir = this.state.mediaList.find(el => el.repo == repoName).media;
+        if (mediaDir != undefined) this.setState({ mediaDir },()=>{
+            this.setState({ mediaContainerMode: true });
+        })
+ 
+    }
 
+    gohome() {
+        this.setState({ mediaContainerMode: false })
     }
 
     render() {
@@ -115,11 +127,12 @@ export class GridContainer extends React.Component {
                 />
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                     {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
-                        <MediaRiel key={i} nsfwMode={true} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
+                        <MediaRiel key={i} openDir={this.openDirHandler} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
                         </MediaRiel>)) : <></>}
                     {this.state.mediaContainerMode && this.state.mediaList[0] ? <MediaContainer
-                        nsfwMode={this.state.nsfw}
-                        media={this.state.mediaList[0].media}
+                        nsfwMode={true}
+                        goBackFn={this.gohome.bind(this)}
+                        media={this.state.mediaDir}
                         repoName={this.state.mediaList[0].repo}
                         openMedia={this.openMedia}>
                     </MediaContainer> : <></>}

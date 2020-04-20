@@ -1,7 +1,5 @@
 import React from 'react';
-//import foldericon from '../../icons/folder_open-24px.svg';
 import { Spinner } from 'react-bootstrap';
-
 import axios from 'axios';
 
 export class GridItem extends React.Component {
@@ -12,10 +10,8 @@ export class GridItem extends React.Component {
         this.state = { tumbnailIsReady: false }
         this.thumbNailHasBeenCalled = false;
         this.clickHandle = this.clickHandle.bind(this);
-       // this.tumbNailIsReadyHandle = this.tumbNailIsReadyHandle.bind(this);
         this.myRef = React.createRef();
         this.focusElement = this.focusElement.bind(this);
-        this.isHide = this.isHide.bind(this);
         this.generateTumbnail = this.generateTumbnail.bind(this);
     }
 
@@ -24,29 +20,7 @@ export class GridItem extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.isHide()) this.generateTumbnail();
-    }
-
-    // tumbNailIsReadyHandle() {
-    //     //need a refactory
-    //     if (!this.isHide()) {
-    //         var scope = this;
-    //         axios.get(this.props.img)
-    //             .then(function (response) {
-    //                 // handle success
-    //                 if (response.status === 200) {
-    //                     console.log("imagen ready");
-    //                     scope.setState({ tumbnailIsReady: true })
-    //                 }
-    //             }).catch(err=>{
-    //                 scope.deadCallCount++;
-    //                 console.log("dead count: ", scope.deadCallCount);
-    //             })
-    //     }
-    // }
-
-    componentDidUpdate(prevProps) {
-        if (!this.isHide()) this.generateTumbnail();
+        this.generateTumbnail();
     }
 
     generateTumbnail() {
@@ -56,8 +30,6 @@ export class GridItem extends React.Component {
             .then(function (response) {
                 scope.thumbNailHasBeenCalled = true;
                 scope.setState({ tumbnailIsReady: true })
-                //console.log(scope.props.fileData.hashId);
-                //console.log("response: ", response);
             })
             .catch(function (error) {
                 console.log(error);
@@ -67,10 +39,6 @@ export class GridItem extends React.Component {
 
     clickHandle() {
         this.props.callback(this.props.fileData);
-    }
-
-    isHide() {
-        return !this.props.nsfwMode && this.props.fileData.nsfw;
     }
 
     render() {

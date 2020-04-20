@@ -31,20 +31,20 @@ export class MediaRiel extends React.Component {
 
 
     componentDidMount() {
-         let lastIndex = 0;
+        let lastIndex = 0;
         lastIndex = this.BASE_NUM_ELMENT_ROW;//lastIndex > this.BASE_NUM_ELMENT_ROW ? lastIndex : this.BASE_NUM_ELMENT_ROW;
-        this.setState({ media: this.props.media.slice(0, lastIndex)});
+        this.setState({ media: this.props.media.slice(0, lastIndex) });
     }
-    componentWillUpdate(prevProps){
-        if (prevProps.media.length>0 && prevProps.media != this.props.media ){
-            this.setState({ media:[]})
-        }  
+    componentWillUpdate(prevProps) {
+        if (prevProps.media.length > 0 && prevProps.media != this.props.media) {
+            this.setState({ media: [] });
+        }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.media.length>0 && prevProps.media != this.props.media ){
-            this.setState({ tabIndex: -1});
-            this.setState({ elements: []},()=>this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELMENT_ROW)}));
+        if (prevProps.media.length > 0 && prevProps.media != this.props.media) {
+            this.setState({ tabIndex: -1 });
+            this.setState({ elements: [] }, () => this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELMENT_ROW) }));
         }
     }
 
@@ -62,7 +62,7 @@ export class MediaRiel extends React.Component {
         let tabIndex = this.state.tabIndex;
         if (tabIndex == elements.length - 2) this.pushMediaElement();
         if (tabIndex < elements.length - 1) {
-            let nextElement = elements.findIndex((el, i) => i > this.state.tabIndex && !el.isHide());
+            let nextElement = elements.findIndex((el, i) => i > this.state.tabIndex);
             console.log("nextEl ", nextElement)
             this.state.tabIndex = nextElement >= 0 ? nextElement : tabIndex;
         }
@@ -78,7 +78,7 @@ export class MediaRiel extends React.Component {
         if (tabIndex > 0) {
             let lastIndex = elements.length - 1;
             let copyRevertedArray = elements.slice().reverse();
-            let nextElement = copyRevertedArray.findIndex((el, i) => i > (lastIndex - this.state.tabIndex) && !el.isHide());
+            let nextElement = copyRevertedArray.findIndex((el, i) => i > (lastIndex - this.state.tabIndex));
             this.state.tabIndex = nextElement > 0 ? lastIndex - nextElement : tabIndex;
         }
         if (this.state.tabIndex >= 0 && this.state.tabIndex <= elements.length - 1) {
@@ -113,6 +113,10 @@ export class MediaRiel extends React.Component {
         }
     }
 
+    openDir() {
+        this.props.openDir(this.props.repoName);
+    }
+
     resetList(index) {
 
     }
@@ -122,9 +126,11 @@ export class MediaRiel extends React.Component {
             <div className="repoContainer">
                 <div className="carrusel-top-bar">
                     <h2 >{this.props.repoName}</h2>
-                    <div className="right-btns"><IconButton color="primary" aria-label="add to shopping cart">
-                        <MoreHorizIcon />
-                    </IconButton>
+                    <div className="right-btns">
+                        <IconButton onClick={this.openDir.bind(this)}
+                            color="primary" aria-label="add to shopping cart">
+                            <MoreHorizIcon />
+                        </IconButton>
                     </div>
                 </div>
                 <div className="btn-nav">
@@ -134,7 +140,6 @@ export class MediaRiel extends React.Component {
                 <div className="grid-container" >
                     {this.state.media.length > 0 ? this.state.media.map((el, i) => (<GridItem
                         ref={this.refCallBack}
-                        nsfwMode={this.props.nsfwMode}
                         tabIndex={i}
                         key={el.hashId}
                         callback={this.props.openMedia}
