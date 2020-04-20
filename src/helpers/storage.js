@@ -1,7 +1,7 @@
 export var storage = {
         appStates:{
             getComponentScope:function(componentName){
-                if(this[componentName]== undefined) throw "Component is not bind";
+                if(this[componentName]===undefined) throw new Error(`Component '${componentName}' is not bind.`);
                 return this[componentName].scope;
             }
         },
@@ -13,12 +13,12 @@ export var storage = {
             this.repos = repos;
         },
         //deprecated
-        setComponetScope,
-        bindComponentToStore: setComponetScope
+        setComponentScope,
+        bindComponentToStorage: setComponentScope
     
 };
 
 
-function setComponetScope(componentName, scope){
+function setComponentScope(componentName, scope){
     this.appStates[componentName]={scope};
  }

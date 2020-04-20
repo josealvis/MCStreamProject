@@ -38,6 +38,13 @@ export class MediaContainer extends React.Component {
         this.paginationHandler(1);
     }
 
+    componentDidUpdate(oldProps){
+        if(oldProps.media!== this.props.media){
+            this.setState({totalPages: Math.ceil(this.props.media.length / this.PAGE_ELEMENT)},
+            ()=> this.paginationHandler(1))
+        }
+    }
+
     selectCard(ref) {
         let elements = this.state.elements;
         let tabIndex = this.state.tabIndex;
@@ -50,7 +57,7 @@ export class MediaContainer extends React.Component {
         console.log(elements);
         console.log("tabindex: ", this.state.tabIndex);
         let tabIndex = this.state.tabIndex;
-        if (tabIndex == elements.length - 2) this.pushMediaElement();
+        if (tabIndex === elements.length - 2) this.pushMediaElement();
         if (tabIndex < elements.length - 1) {
             let nextElement = elements.findIndex((el, i) => i > this.state.tabIndex && !el.isHide());
             console.log("nextEl ", nextElement)

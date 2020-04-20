@@ -10,26 +10,46 @@ export class SearchBox extends React.Component {
         super(porps);
         this.state ={
             mode:false,
+            searchText:"",
+            mediaList:[],
         }
+        this.inputPathChangeHandler = this.inputPathChangeHandler.bind(this);
+
     }
     
-    setMode(){
-        console.log("store:",storage.appStates.GridContainerStates);
-       
-        //storage.appStates.GridContainerStates.scope.setState({mediaContainerMode:false});
+    searchBtn(){
         var scope = storage.appStates.getComponentScope("GridContainerStates");
-        scope.setState({mediaContainerMode:false});
-        this.setState({mode:!this.state.mode})
+        let text = this.state.searchText.toLocaleLowerCase();
+        var repoList = storage.getRepos();
+        let media = this.searchMedia(repoList);
+        let result = media.filter((el)=>el.name.toLowerCase().includes(text));
+        scope.setState({mediaDir:result},function(){
+            scope.setState({mediaContainerMode:true});
+            scope.setState({mediaDirName:"Search Results."});
+        });
+       
+    }
+
+    searchMedia(repoList){
+     return repoList.reduce((arr,el)=>{
+         if(el.media.length>0)arr =[...arr, ...el.media];
+         return arr;
+     },[]);
+    }
+
+    inputPathChangeHandler(event) {
+        this.setState({ searchText: event.target.value });
     }
 
     render() {
         return (<form noValidate autoComplete="off">
                         <TextField className="search-box" id="standard-basic" placeholder="Search 2" variant="outlined"
+                            onChange={this.inputPathChangeHandler}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Divider orientation="vertical" />
-                                        <IconButton  onClick={this.setMode.bind(this)}  color="primary" aria-label="directions">
+                                        <IconButton  onClick={this.searchBtn.bind(this)}  color="primary" aria-label="directions">
                                             <SearchIcon />
                                         </IconButton>
                                     </InputAdornment>

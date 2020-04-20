@@ -36,13 +36,13 @@ export class MediaRiel extends React.Component {
         this.setState({ media: this.props.media.slice(0, lastIndex) });
     }
     componentWillUpdate(prevProps) {
-        if (prevProps.media.length > 0 && prevProps.media != this.props.media) {
+        if (prevProps.media.length > 0 && prevProps.media !== this.props.media) {
             this.setState({ media: [] });
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.media.length > 0 && prevProps.media != this.props.media) {
+        if (prevProps.media.length > 0 && prevProps.media !== this.props.media) {
             this.setState({ tabIndex: -1 });
             this.setState({ elements: [] }, () => this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELMENT_ROW) }));
         }
@@ -60,7 +60,7 @@ export class MediaRiel extends React.Component {
         console.log(elements);
         console.log("tabindex: ", this.state.tabIndex);
         let tabIndex = this.state.tabIndex;
-        if (tabIndex == elements.length - 2) this.pushMediaElement();
+        if (tabIndex === elements.length - 2) this.pushMediaElement();
         if (tabIndex < elements.length - 1) {
             let nextElement = elements.findIndex((el, i) => i > this.state.tabIndex);
             console.log("nextEl ", nextElement)

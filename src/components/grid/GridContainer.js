@@ -4,12 +4,10 @@ import { storage } from '../../helpers/storage';
 import './grid.css'
 import axios from 'axios';
 
-import { GridItem } from './GridItem';
 import { MediaRiel } from './MediaRiel';
 import { MediaContainer } from './MediaContainer';
 import { VideoPlayer } from '../VideoPlayer/VideoPlayer';
 
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
@@ -18,10 +16,11 @@ export class GridContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        storage.setComponetScope("GridContainerStates",this);
+        storage.bindComponentToStorage("GridContainerStates",this);
         this.state = {
             mediaList: [],
             mediaDir: [],
+            mediaDirName:"",
             idHash: '',
             videoTitle: '',
             modal: false,
@@ -59,7 +58,7 @@ export class GridContainer extends React.Component {
     }
 
     openMedia(vidMetaData, modal = true) {
-        if (vidMetaData != undefined) this.setMediaStates(vidMetaData);
+        if (vidMetaData !== undefined) this.setMediaStates(vidMetaData);
         this.setState({ modal });
     }
 
@@ -101,9 +100,10 @@ export class GridContainer extends React.Component {
 
     openDirHandler(repoName) {
         // it should be an Id insted of repo
-        let mediaDir = this.state.mediaList.find(el => el.repo == repoName).media;
-        if (mediaDir != undefined) this.setState({ mediaDir },()=>{
+        let repo = this.state.mediaList.find(el => el.repo === repoName);
+        if (repo.media !== undefined) this.setState({ mediaDir:repo.media },()=>{
             this.setState({ mediaContainerMode: true });
+            this.setState({ mediaDirName: repo.repo  });
         })
  
     }
@@ -133,7 +133,7 @@ export class GridContainer extends React.Component {
                         nsfwMode={true}
                         goBackFn={this.gohome.bind(this)}
                         media={this.state.mediaDir}
-                        repoName={this.state.mediaList[0].repo}
+                        repoName={this.state.mediaDirName}
                         openMedia={this.openMedia}>
                     </MediaContainer> : <></>}
 
