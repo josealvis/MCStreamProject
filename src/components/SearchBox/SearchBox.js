@@ -41,13 +41,20 @@ export class SearchBox extends React.Component {
         this.setState({ searchText: event.target.value });
     }
 
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.searchBtn();
+        }
+    }
+
     render() {
-        return (<form noValidate autoComplete="off">
+        return (<div>
                         <TextField className="search-box" id="standard-basic" placeholder="Search 2" variant="outlined"
                             onChange={this.inputPathChangeHandler}
+                            onKeyPress={this.handleKeyPress.bind(this)}
                             InputProps={{
                                 startAdornment: (
-                                    <InputAdornment position="start">
+                                    <InputAdornment position="start" >
                                         <Divider orientation="vertical" />
                                         <IconButton  onClick={this.searchBtn.bind(this)}  color="primary" aria-label="directions">
                                             <SearchIcon />
@@ -57,6 +64,6 @@ export class SearchBox extends React.Component {
                             }}
                         />
 
-                    </form>)
+                    </div>)
     }
 } 
