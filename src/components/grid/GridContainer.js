@@ -89,6 +89,7 @@ export class GridContainer extends React.Component {
 
     nsfwToggle() {
         let nsfw = !this.state.nsfw;
+        storage.nsfwMode = nsfw;
         this.setState({ nsfw }, this.nsfwStateHandler);
     }
 
