@@ -112,7 +112,7 @@ export class MediaRiel extends React.Component {
     }
 
     openDir() {
-        this.props.openDir(this.props.repoName);
+        this.props.openDir(this.props.repoId);
     }
 
     resetList(index) {
@@ -143,7 +143,7 @@ export class MediaRiel extends React.Component {
                         callback={this.props.openMedia}
                         hashId={el.hashId}
                         fileData={el}
-                        img={el.tumbnail}
+                        img={el.Thumbnail}
                         title={el.name}
                     />)) :
                         <h5>There is nothing here.</h5>}

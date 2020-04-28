@@ -98,9 +98,9 @@ export class GridContainer extends React.Component {
         }
     }
 
-    openDirHandler(repoName) {
+    openDirHandler(hashId) {
         // it should be an Id insted of repo
-        let repo = this.state.mediaList.find(el => el.repo === repoName);
+        let repo = this.state.mediaList.find(el => el.hashId === hashId);
         if (repo.media !== undefined) this.setState({ mediaDir:repo.media },()=>{
             this.setState({ mediaContainerMode: true });
             this.setState({ mediaDirName: repo.repo  });
@@ -127,7 +127,7 @@ export class GridContainer extends React.Component {
                 />
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                     {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
-                        <MediaRiel key={i} openDir={this.openDirHandler} media={car.media} repoName={car.repo} openMedia={this.openMedia}>
+                        <MediaRiel key={i} openDir={this.openDirHandler} media={car.media} repoId={car.hashId} openMedia={this.openMedia}>
                         </MediaRiel>)) : <></>}
                     {this.state.mediaContainerMode && this.state.mediaList[0] ? <MediaContainer
                         nsfwMode={true}
