@@ -63,7 +63,6 @@ export class SearchBox extends React.Component {
                                 ),
                             }}
                         />
-
                     </div>)
     }
 } 

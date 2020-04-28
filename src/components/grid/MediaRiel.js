@@ -29,7 +29,6 @@ export class MediaRiel extends React.Component {
         this.pushMediaElement = this.pushMediaElement.bind(this);
     }
 
-
     componentDidMount() {
         let lastIndex = 0;
         lastIndex = this.BASE_NUM_ELMENT_ROW;//lastIndex > this.BASE_NUM_ELMENT_ROW ? lastIndex : this.BASE_NUM_ELMENT_ROW;
@@ -103,7 +102,6 @@ export class MediaRiel extends React.Component {
         }
     }
 
-
     refCallBack(el) {
         if (el) {
             let elements = this.state.elements;
@@ -127,7 +125,7 @@ export class MediaRiel extends React.Component {
                 <div className="carrusel-top-bar">
                     <h2 >{this.props.repoName}</h2>
                     <div className="right-btns">
-                        <IconButton onClick={this.openDir.bind(this)}
+                        <IconButton title={`Go to ${this.props.repoName}.`} onClick={this.openDir.bind(this)}
                             color="primary" aria-label="add to shopping cart">
                             <MoreHorizIcon />
                         </IconButton>

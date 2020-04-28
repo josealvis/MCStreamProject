@@ -33,7 +33,6 @@ export class MediaContainer extends React.Component {
         this.paginationHandler = this.paginationHandler.bind(this);
     }
 
-
     componentDidMount() {
         this.paginationHandler(1);
     }
