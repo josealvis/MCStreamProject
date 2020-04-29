@@ -4,7 +4,7 @@ import { storage } from '../../helpers/storage';
 import './grid.css'
 import axios from 'axios';
 
-import { MediaRiel } from './MediaRiel';
+import { MediaRail } from './MediaRail';
 import { MediaContainer } from './MediaContainer';
 import { VideoPlayer } from '../VideoPlayer/VideoPlayer';
 
@@ -69,21 +69,21 @@ export class GridContainer extends React.Component {
 
     nsfwStateHandler() {
         let nsfw = this.state.nsfw;
-        console.log("store repo: ", storage.repos)
         let repos = storage.getRepos();
-        repos = repos.reduce((el, next) => {
-            if (nsfw || !next.nsfw) {
-                if (next.media.length > 0 && !nsfw) {
-                    next.media = next.media.reduce((ac, i) => {
-                        if (!i.nsfw) ac = [...ac, i];
-                        return ac;
-                    }, []);
-                }
-                el = [...el, next];
-            }
-            return el;
-        }, []);
-        console.log(repos);
+        // console.log("repos false: ", repos[0])
+        // repos = repos.reduce((el, next) => {
+        //     if (nsfw || !next.nsfw) {
+        //         if (next.media.length > 0 && !nsfw) {
+        //             next.media = next.media.reduce((ac, i) => {
+        //                 if (!i.nsfw) ac = [...ac, i];
+        //                 return ac;
+        //             }, []);
+        //         }
+        //         el = [...el, next];
+        //     }
+        //     return el;
+        // }, []);
+        // console.log(repos);
         this.setState({ mediaList: repos })
     }
 
@@ -128,8 +128,8 @@ export class GridContainer extends React.Component {
                 />
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                     {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
-                        <MediaRiel key={i} openDir={this.openDirHandler} media={car.media} repoId={car.hashId} openMedia={this.openMedia}>
-                        </MediaRiel>)) : <></>}
+                        <MediaRail key={i} nsfw={car.nsfw} repoName={car.repo} openDir={this.openDirHandler} media={car.media} repoId={car.hashId} openMedia={this.openMedia}>
+                        </MediaRail>)) : <></>}
                     {this.state.mediaContainerMode && this.state.mediaList[0] ? <MediaContainer
                         nsfwMode={true}
                         goBackFn={this.gohome.bind(this)}

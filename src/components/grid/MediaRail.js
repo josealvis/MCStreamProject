@@ -6,7 +6,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-export class MediaRiel extends React.Component {
+export class MediaRail extends React.Component {
 
     constructor(props) {
         super(props);
@@ -123,7 +123,10 @@ export class MediaRiel extends React.Component {
         return (
             <div className="repoContainer">
                 <div className="carrusel-top-bar">
-                    <h2 >{this.props.repoName}</h2>
+                    <div className="rail-title">
+                    <h2 >{this.props.repoName} </h2>
+                    {this.props.nsfw?<span class="badge badge-pill badge-danger">NSFW</span>:null}
+                    </div>
                     <div className="right-btns">
                         <IconButton title={`Go to ${this.props.repoName}.`} onClick={this.openDir.bind(this)}
                             color="primary" aria-label="add to shopping cart">

@@ -81,7 +81,7 @@ function generateMapMedia() {
     let mediaList = [];
     let mediaPaths = mediaRepo.getMediaPaths();
     for (let x = 0; x < mediaPaths.length; x++) {
-        let nsfw = mediaPaths[x].NSFW == "true";
+        let nsfw = mediaPaths[x].nsfw == true;
         mediaList.push({
             hashId: generateHash(mediaPaths[x].path),
             repo: mediaPaths[x].displayName,

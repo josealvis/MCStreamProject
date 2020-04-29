@@ -26,6 +26,7 @@
     "react-player": "^1.14.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "sweetalert": "^2.1.2",
     "video-react": "^0.14.1"
   },
   "scripts": {

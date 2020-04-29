@@ -9,8 +9,8 @@ export var storage = {
     repos: [],
     getRepos: function () {
         let repo = JSON.parse(JSON.stringify(this.repos));
-        repo.filter(e => this.nsfwMode || !e.nsfw)
-        repo.map(el => {
+        repo = repo.filter(e => this.nsfwMode || !e.nsfw)
+        repo =repo.map(el => {
             el.media = el.media.filter(e => this.nsfwMode || !e.nsfw);
             return el;
         })

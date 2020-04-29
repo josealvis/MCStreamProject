@@ -146,12 +146,19 @@
 
 }
 
+
+.rail-title{
+    min-width: 300px;
+    border-bottom: 1px solid #2979FF;
+}
+
+.rail-title span{
+margin-top: 18px;
+}
 .repoContainer h2 {
- min-width: 300px;
  float: left;
  text-align: left;
  padding-bottom: 6px;
- border-bottom: 1px solid #2979FF;
 }
 
 .carrusel-top-bar{
