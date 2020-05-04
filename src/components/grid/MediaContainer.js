@@ -1,5 +1,5 @@
 import React from 'react';
-import './grid.css'
+import './grid.scss'
 import { GridItem } from './GridItem';
 import { Button, IconButton } from '@material-ui/core/';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';

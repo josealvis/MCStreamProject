@@ -4,7 +4,7 @@ import { history } from "./helpers/history";
 import {TopNav} from "./components/TopNav/TopNav"
 import {Settings} from './components/settings/Settings'
 
-import './App.css';
+import './App.scss';
 import { GridContainer } from './components/grid/GridContainer';
 
 class App extends React.Component {

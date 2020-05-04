@@ -1,0 +1,31 @@
+$break-small: 450px;
+$break-large: 1200px;
+
+
+
+
+.top-nav-container{
+    background-color: white;
+    width: 100vh;
+    height: 100px;
+    padding: 20px;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    display: flex;
+    @media screen and (max-width: $break-small) {
+        height: 50px;
+        background-color: red;
+      }
+      @media screen and (min-width: $break-large) {
+      
+      }
+}
+
+.mid-content{
+
+}
+
+
+.search-box{
+    width: 600px;
+}

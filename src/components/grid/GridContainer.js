@@ -1,7 +1,7 @@
 import React from 'react';
 import { storage } from '../../helpers/storage';
 
-import './grid.css'
+import './grid.scss'
 import axios from 'axios';
 
 import { MediaRail } from './MediaRail';
