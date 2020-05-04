@@ -1,3 +1,6 @@
+$break-small: 450px;
+$break-large: 1200px;
+
 .media-grid-container{
     /* display: flex;
     justify-content: left; 
@@ -6,24 +9,6 @@
     background-color: #212121;
     color: white;
 }
-
-.grid-container{
-    /* padding-top: 100px; */
-    min-width: 100vh;
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    padding-top: 10px;
-    min-height: 395px;
-    /* flex-wrap: wrap; */
-    /* overflow: hidden; */
-    /* justify-content: center; */
-    /* overflow-x: scroll;
-    overflow-y: scroll; */
-     overflow-x: hidden;
-    color: white;
-}
-
 
 
 .media-container{
@@ -49,36 +34,10 @@
     justify-content: center;
 }
 
-.grid-media-card{
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
-    height: 350px;
-    background-color:#545454;
-    min-width: 220px;
-    max-width: 220px;
-    overflow: hidden; 
-    flex-wrap: wrap;
-    justify-content: center; 
-    display: flex;
-    margin: 3px;
 
-}
-.grid-media-card:focus{
-    margin-top: 0!important;
-    margin-bottom: 0 !important;
-    min-height:  360px;
-    max-height:  360px;
-    outline: none;
-    border-radius: 2px;
-    border: 5px solid #FAFAFA !important;
-
-    /* border-top: 10px solid white !important;
-    border-bottom: 10px solid white !important; */
-
-}
 
 .btn-nav{
-    min-width: 100vh;
+   // min-width: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -174,3 +133,37 @@ margin-top: 18px;
 }
 
 
+
+.grid-media-card{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    height: 350px;
+    background-color:#545454;
+    min-width: 220px;
+    max-width: 220px;
+    overflow: hidden; 
+    flex-wrap: wrap;
+    justify-content: center; 
+    display: flex;
+    margin: 3px;
+    @media screen and (max-width: $break-small) {
+        height: 200px;
+        min-width: 130px;
+        max-width: 130px;
+     }
+}
+.grid-media-card:focus{
+    margin-top: 0!important;
+    margin-bottom: 0 !important;
+    // min-height:  360px;
+    // max-height:  360px;
+    outline: none;
+    border-radius: 2px;
+    border: 5px solid #FAFAFA !important;
+    @media screen and (max-width: $break-small) {
+        height: 200px;
+        min-width: 130px;
+        max-width: 130px;
+     }
+
+}

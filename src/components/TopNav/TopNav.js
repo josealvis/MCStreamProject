@@ -19,7 +19,7 @@ export class TopNav extends React.Component {
                 <div className="mid-content">
                     <SearchBox />
                 </div>
-                <div>
+                <div className="action-btn">
                     <IconButton color="primary" aria-label="">
                         <Link to="/grid" ><VideoLibraryIcon /></Link>
                     </IconButton>

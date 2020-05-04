@@ -1,6 +1,7 @@
 import React from 'react';
 import constants from '../../helpers/constants';
 import './grid.scss'
+import './mediaRail.scss'
 import { GridItem } from './GridItem';
 import { Button, IconButton } from '@material-ui/core/';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
