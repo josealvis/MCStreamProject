@@ -47,19 +47,17 @@ fs.existsSync.mockImplementation((fileName) => {
 
 path.extname.mockImplementation((filename) => filename.substr(filename.lastIndexOf(".")));
 
-
-
 describe('readDir', () => {
     var list = mediafile.readDir("LIST_OF_File_lv1");
 
     test('list length should be 6', () => { expect(list.length).toBe(6); });
 
-    describe('List element has to  have all props', () => {
+    describe('List', () => {
         list.map(el => {
-            test('hashId prop has to be define', () => { expect(el.hashId != undefined).toBe(true); })
-            test('name porp has to be define', () => { expect(el.name != undefined).toBe(true); })
-            test('path prop has to be define', () => { expect(el.path != undefined).toBe(true); })
-            test('tumbnail prop has to be define', () => { expect(el.tumbnail != undefined).toBe(true); })
+            test('hashId prop has to be defined', () => { expect(el.hashId != undefined).toBe(true); })
+            test('name porp has to be defined', () => { expect(el.name != undefined).toBe(true); })
+            test('path prop has to be defined', () => { expect(el.path != undefined).toBe(true); })
+            test('Thumbnail prop has to be defined', () => { expect(el.Thumbnail != undefined).toBe(true); })
         })
     });
 
@@ -78,6 +76,7 @@ describe('generateMapMedia', () => {
 
     describe('List element has to  have all props', () => {
         mediaObject.map(el => {
+            test('hashId: prop has to be define', () => { expect(el.hashId != undefined).toBe(true); })
             test('repo: prop has to be define', () => { expect(el.repo != undefined).toBe(true); })
             test('path porp has to be define', () => { expect(el.path != undefined).toBe(true); })
             test('nsfw: prop has to be define', () => { expect(el.nsfw != undefined).toBe(true); })

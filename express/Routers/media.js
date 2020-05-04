@@ -62,8 +62,8 @@ router.get('/getMediaList', function (req, res) {
   conf.mediaObjectMapper = mediaList;
 
   res.send(mediaList.map(el => {
-    rd.generateTumbnail(el.path);
-    el.tumbnail = "/tumbnail/?name=" + el.tumbnail;
+    rd.generateThumbnail(el.path);
+    el.Thumbnail = "/Thumbnail/?name=" + el.Thumbnail;
     el.nsfw = nsfw ? nsfw : isNSFWMedia(el.name);
     return el;
   }));
@@ -71,19 +71,35 @@ router.get('/getMediaList', function (req, res) {
 
 router.get('/getDataObject', function (req, res) {
   let mediaList = rd.generateMapMedia();
-  res.send(mediaList);
+  res.send(mediaList.map(el=>{
+    let media  = el.media.map(el=>{
+       let newMedia = {...el};
+       delete newMedia.path;
+       return newMedia
+      });
+    let newEl = {hashId: el.hashId, nsfw: el.nsfw, repo: el.repo, media};
+    return newEl;
+  }));
 })
 
-router.post('/generateTumbnail', function (req, res) {
-  let data = req.body;
-  data.map(el => rd.generateTumbnail(el.path));
+
+router.post('/generateThumbnail', function (req, res) {
+  let { hashId } = req.body;
+  console.log("generate thumbnail called,", hashId);
+  let obj = conf.mediaObjectMapper.getMediabyIdhash(hashId);
+  if(obj && obj.path){
+     rd.generateThumbnail(obj.path).then(el=>{
+      console.log("El web Service termino");
+      res.send("ok");
+     });
+  }
+  else  res.send("Shuld return a sample thumbnail.");
 });
 
-router.get('/tumbnail', function (req, res) {
+router.get('/Thumbnail', function (req, res) {
   let name = req.query.name;
-  const tumbnailPath = path.join(__dirname, '../tumbnails');
-  res.sendFile(tumbnailPath + '/' + name)
-
+  const ThumbnailPath = path.join(__dirname, '../Thumbnails');
+  res.sendFile(ThumbnailPath + '/' + name);
 })
 
 module.exports = router;

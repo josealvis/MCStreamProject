@@ -1,5 +1,5 @@
 var fs = require('fs');
-var https = require('https');
+var https = require('http');
 
 function depureMediaName(madiaName, numberOfWords = 3) {
    var name = madiaName.replace(/[^a-zA-Z\s:]/g, " ");
@@ -20,9 +20,14 @@ function generateHash(str) {
 //Node.js Function to save image from External URL.
 function saveImageToDisk(url, localPath) {
    var file = fs.createWriteStream(localPath);
-   var request = https.get(url, function (response) {
+   //console.log("posterimg: ",url)
+   var request = (resolve) => https.get(url, function (response) {
       response.pipe(file);
+      resolve();
    });
+return new Promise(request);
 }
 
 module.exports = { depureMediaName, generateHash, saveImageToDisk }; 
+
+

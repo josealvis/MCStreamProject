@@ -6,7 +6,7 @@ var { isNSFWMedia } = require('./mediaTitleProcessing');
 var mediaRepo = new rp();
 var { generateHash } = require('../core/helper');
 var { getPoster } = require('./movieDBAPI');
-const tumbnailPath = path.join(__dirname, '../tumbnails');
+const ThumbnailPath = path.join(__dirname, '../thumbnails');
 var { saveImageToDisk } = require('../core/helper');
 
 
@@ -25,14 +25,13 @@ function readDir(mediaPath) {
                 let ext = path.extname(file);
                 if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
                     var hashId = generateHash(file);
-                    list.push({ hashId, name: collection[x], path: file, tumbnail: getTumbnailPath(file) });
+                    list.push({ hashId, name: collection[x], path: file, Thumbnail: getThumbnailPath(file) });
                 }
             }
         };
     }
     return list;
 }
-
 
 function findMedibyHashID(mediaPath, _hashId) {
     let media = {};
@@ -49,7 +48,7 @@ function findMedibyHashID(mediaPath, _hashId) {
                 if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
                     var hashId = generateHash(file);
                     if (_hashId == hashId) {
-                        media = { hashId, name: collection[x], path: file, tumbnail: getTumbnailPath(file) };
+                        media = { hashId, name: collection[x], path: file, Thumbnail: getThumbnailPath(file) };
                         break;
                     }
                 }
@@ -58,7 +57,6 @@ function findMedibyHashID(mediaPath, _hashId) {
     }
     return media;
 }
-
 
 function readDirOneLv(mediaPath) {
     let list = [];
@@ -71,7 +69,7 @@ function readDirOneLv(mediaPath) {
             let ext = path.extname(file);
             if (suportExt.some(el => el.toUpperCase() == ext.toUpperCase())) {
                 var hashId = generateHash(file);
-                list.push({ hashId, name: e, path: file, tumbnail: getTumbnailPath(file) });
+                list.push({ hashId, name: e, path: file, Thumbnail: getThumbnailPath(file) });
             }
         }
 
@@ -83,14 +81,15 @@ function generateMapMedia() {
     let mediaList = [];
     let mediaPaths = mediaRepo.getMediaPaths();
     for (let x = 0; x < mediaPaths.length; x++) {
-        let nsfw = mediaPaths[x].NSFW === true;
+        let nsfw = mediaPaths[x].nsfw == true;
         mediaList.push({
+            hashId: generateHash(mediaPaths[x].path),
             repo: mediaPaths[x].displayName,
             path: mediaPaths[x].path,
-            nsfw: mediaPaths[x].NSFW,
+            nsfw: nsfw,
             media: readDir(mediaPaths[x].path).map(el => {
                 el.nsfw = nsfw ? nsfw : isNSFWMedia(el.name);
-                el.tumbnail = "/tumbnail/?name=" + el.tumbnail;
+                el.Thumbnail = "/Thumbnail/?name=" + el.Thumbnail;
                 return el
             })
         });
@@ -114,53 +113,61 @@ function findMediaPath(hashId, repo = null) {
     return mediaPath;
 }
 
-function generateTumbnail(mediaPath) {
+function generateThumbnail(mediaPath) {
     const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
     const ffprobePath = require('@ffprobe-installer/ffprobe').path;
     const ffmpeg = require('fluent-ffmpeg');
     ffmpeg.setFfmpegPath(ffmpegPath);
     ffmpeg.setFfprobePath(ffprobePath);
 
-
-    //let tumbnailDir = mediaPath.substr(0, mediaPath.lastIndexOf("/"));
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
-    let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
-    let tumbnail = tumbnailPath + tumnailName;
-    
-    console.log("vamos a ver aqui", config.mediaObjectMapper);
-    fs.access(tumbnail, fs.F_OK, (err) => {
+    let thumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-Thumbnail.jpg";
+    let Thumbnail = ThumbnailPath + thumnailName; 
+
+    let resolveFn = (res, rej) =>fs.access(Thumbnail, fs.F_OK, (err) => {
         // file not exist
         if (err) {
-
-            getPoster(fileName)
+             getPoster(fileName)
                 .then(function (response) {
                     // handle success
                     if (response.data.total_results > 0 && response.data.results[0].poster_path !== null) {
-                        var posterUrl = "https://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
-                        saveImageToDisk(posterUrl, tumbnailPath + tumnailName);
+                        var posterUrl = "http://image.tmdb.org/t/p/w500/" + response.data.results[0].poster_path;
+                        saveImageToDisk(posterUrl, ThumbnailPath + thumnailName).finally(()=>res());
                     } else {
+
                         var proc = new ffmpeg(mediaPath)
+                            .on('error', function (err, stdout, stderr) {
+                                console.log('Cannot process video: ' + err.message);
+                            })
                             .screenshots({
                                 count: 1,
-                                //timestamps: [30.5, '50%', '01:10.123'],
-                                filename: tumnailName,
-                                folder: tumbnailPath,
+                                filename: thumnailName,
+                                folder: ThumbnailPath,
                                 size: '620x480'
-                            });
+                            }).on('end', function() {
+                                console.log('Finished processing');
+                                res();
+                              })
                     }
-                }).catch(err => console.log('GetPoster error', err))
-               
-        } 
-    });
+                }).catch(err => {
+                    console.log('GetPoster error', err);
+                })
 
+        }else{
+            console.log("Thumbnail alredy existed.")
+            res();
+        }
+    })
+
+    return new Promise(resolveFn)
 }
 
-function getTumbnailPath(mediaPath) {
+function getThumbnailPath(mediaPath) {
     let fileName = mediaPath.substr(mediaPath.lastIndexOf("/"));
-    let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-tumbnail.jpg";
+    let tumnailName = fileName.substr(0, fileName.lastIndexOf(".")) + "-Thumbnail.jpg";
     return tumnailName.replace('/', '');
 }
 
-module.exports = { readDir, readDirOneLv, generateTumbnail, generateMapMedia, findMediaPath };
+module.exports = { readDir, readDirOneLv, generateThumbnail, generateMapMedia, findMediaPath };
 
 

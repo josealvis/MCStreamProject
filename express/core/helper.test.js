@@ -14,7 +14,7 @@ describe('depureMediaName()',()=>{
     });
     
     test('Should get the first word from a file name', () => {
-        let film ='Spider-Man.Into.The.Spider-Verse.2018.1080p.WEBRip.x264-[YTS.AM]-tumbnail';
+        let film ='Spider-Man.Into.The.Spider-Verse.2018.1080p.WEBRip.x264-[YTS.AM]-Thumbnail';
         let name = depureMediaName(film,1);
       expect(name).toBe("Spider");
     });

@@ -60,6 +60,7 @@ class mediaRepo {
         //     newEl = config.paths.filter(el => !data.mediaPaths.some(p => p.path == el.path));
         //     newEl.map(el=>{edditMediaPath(el.path, el.displayName, el.NSFW); return el;})
         // }
+        return data;
 
     }
 

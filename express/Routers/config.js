@@ -19,10 +19,8 @@ router.post('/addPath', function (req, res) {
 
 router.post('/saveConfig', function (req, res) { 
   let data = req.body
-  mediaRepo.saveCofig(data);
-  // /for(let x=0; x<data.paths.length; x++){
-  //   mediaRepo.addMediaPath(data.paths[x].path, data.paths[x].displayName, data.paths[x].nsfw);
-  // }
+  let result = mediaRepo.saveCofig(data);
+  res.send(result);
 })
 
 router.post('/edidPath', function (req, res) {
