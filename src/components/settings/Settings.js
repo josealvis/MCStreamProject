@@ -20,6 +20,9 @@ function PathItem(props) {
     }
 
     return (<InputGroup className="mb-3">
+        <InputGroup.Prepend>
+            <InputGroup.Text id="basic-addon1">Display Name</InputGroup.Text>
+        </InputGroup.Prepend>
         <FormControl
             placeholder="Display Name"
             aria-label="Recipient's username"
@@ -27,6 +30,9 @@ function PathItem(props) {
             onChange={(event) => { onChangeHandler(event, 'displayName') }}
             value={props.element.displayName}
         />
+        <InputGroup.Append>
+            <InputGroup.Text>Path</InputGroup.Text>
+        </InputGroup.Append>
         <FormControl
             placeholder="Recipient's username"
             aria-label="Recipient's username"
@@ -96,27 +102,27 @@ export class Settings extends React.Component {
     }
 
     saveCongfigHandler() {
-       
+
         swal({
             title: "Are you sure?",
             text: "Save anyway!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-                axios.post('/saveConfig', this.state.configObj)
-                .then(function (response) {
-                    swal("Saved!", "You config is saved!", "success");
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    swal ( "Oops" ,  "Something went wrong!" ,  "error" );
-                    console.log(error);
-                });
-            } 
-          });
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.post('/saveConfig', this.state.configObj)
+                        .then(function (response) {
+                            swal("Saved!", "You config is saved!", "success");
+                            console.log(response);
+                        })
+                        .catch(function (error) {
+                            swal("Oops", "Something went wrong!", "error");
+                            console.log(error);
+                        });
+                }
+            });
 
 
     }

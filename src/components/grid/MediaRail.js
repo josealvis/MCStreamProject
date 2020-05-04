@@ -1,4 +1,5 @@
 import React from 'react';
+import constants from '../../helpers/constants';
 import './grid.css'
 import { GridItem } from './GridItem';
 import { Button, IconButton } from '@material-ui/core/';
@@ -10,7 +11,7 @@ export class MediaRail extends React.Component {
 
     constructor(props) {
         super(props);
-        this.BASE_NUM_ELMENT_ROW = 7;
+        this.BASE_NUM_ELEMENT_ROW = constants.BASE_NUM_ELEMENT_ROW;
         this.state = {
             modal: false,
             rowNum: 1,
@@ -31,9 +32,10 @@ export class MediaRail extends React.Component {
 
     componentDidMount() {
         let lastIndex = 0;
-        lastIndex = this.BASE_NUM_ELMENT_ROW;//lastIndex > this.BASE_NUM_ELMENT_ROW ? lastIndex : this.BASE_NUM_ELMENT_ROW;
+        lastIndex = this.BASE_NUM_ELEMENT_ROW;
         this.setState({ media: this.props.media.slice(0, lastIndex) });
     }
+    
     componentWillUpdate(prevProps) {
         if (prevProps.media.length > 0 && prevProps.media !== this.props.media) {
             this.setState({ media: [] });
@@ -43,7 +45,7 @@ export class MediaRail extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.media.length > 0 && prevProps.media !== this.props.media) {
             this.setState({ tabIndex: -1 });
-            this.setState({ elements: [] }, () => this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELMENT_ROW) }));
+            this.setState({ elements: [] }, () => this.setState({ media: this.props.media.slice(0, this.BASE_NUM_ELEMENT_ROW) }));
         }
     }
 

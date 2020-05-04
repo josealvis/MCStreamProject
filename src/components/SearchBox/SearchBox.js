@@ -49,7 +49,7 @@ export class SearchBox extends React.Component {
 
     render() {
         return (<div>
-                        <TextField className="search-box" id="standard-basic" placeholder="Search 2" variant="outlined"
+                        <TextField className="search-box" id="standard-basic" placeholder="Search" variant="outlined"
                             onChange={this.inputPathChangeHandler}
                             onKeyPress={this.handleKeyPress.bind(this)}
                             InputProps={{
