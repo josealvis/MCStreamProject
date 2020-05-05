@@ -43,13 +43,16 @@ export class GridItem extends React.Component {
 
     render() {
         return (
+            <div className="grid-media-card-container">
             <div className={"grid-media-card " + this.props.className} tabIndex={this.props.tabIndex} onClick={this.clickHandle} ref={this.myRef}  >
                 <div className={"media-img "+(!this.state.ThumbnailIsReady?"full-width":"")}>
-                    <div className="grid-card-title" alt={this.props.title.substring(0, 40)}><span>{this.props.title.substring(0, 10)} </span></div>
+                    {/* <div className="grid-card-title" alt={this.props.title.substring(0, 40)}><span>{this.props.title.substring(0, 10)} </span></div> */}
                     {this.state.ThumbnailIsReady ?
                         <img alt={this.props.title.substring(0, 40)} src={this.props.img} /> :
                         <div className="snipper"><Spinner animation="grow" variant="info" /></div>}
                 </div>
+            </div>
+            <div className="grid-card-title-under" alt={this.props.title}><span>{this.props.title.substring(0,35)} </span></div>
             </div>
         );
     }
