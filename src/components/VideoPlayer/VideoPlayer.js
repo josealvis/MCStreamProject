@@ -2,7 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player'
 //import { useParams } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
-import './style.css';
+import './style.scss';
 
 
 function Modald(props) {
