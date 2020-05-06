@@ -1,8 +1,9 @@
 import React from 'react';
 import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { history } from "./helpers/history";
-import {TopNav} from "./components/TopNav/TopNav"
-import {Settings} from './components/settings/Settings'
+import {TopNav} from "./components/TopNav/TopNav";
+import {Settings} from './components/settings/Settings';
+import {MobileNav} from './components/mobile/MobileNav';
 
 import './App.scss';
 import { GridContainer } from './components/grid/GridContainer';
@@ -18,6 +19,7 @@ class App extends React.Component {
             <Route path="/settings" render={(props)=><Settings {...props}/>}  />
             <Redirect from="*" to="/grid" />
           </Switch>
+          <MobileNav/>
         </Router>
 
       </div>

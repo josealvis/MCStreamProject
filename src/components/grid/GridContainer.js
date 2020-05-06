@@ -70,20 +70,6 @@ export class GridContainer extends React.Component {
     nsfwStateHandler() {
         let nsfw = this.state.nsfw;
         let repos = storage.getRepos();
-        // console.log("repos false: ", repos[0])
-        // repos = repos.reduce((el, next) => {
-        //     if (nsfw || !next.nsfw) {
-        //         if (next.media.length > 0 && !nsfw) {
-        //             next.media = next.media.reduce((ac, i) => {
-        //                 if (!i.nsfw) ac = [...ac, i];
-        //                 return ac;
-        //             }, []);
-        //         }
-        //         el = [...el, next];
-        //     }
-        //     return el;
-        // }, []);
-        // console.log(repos);
         this.setState({ mediaList: repos })
     }
 
@@ -120,12 +106,13 @@ export class GridContainer extends React.Component {
                     isOpen={this.state.modal}
                     closeModal={() => this.closeMediaHandle()}
                     title={this.state.videoTitle} />
-                <FormControlLabel
+                <div className="grid-container-menu">
+                <FormControlLabel 
                     control={
                         <Switch checked={this.state.nsfw} onChange={this.nsfwToggle} value="" />
                     }
                     label="NSFW mode"
-                />
+                /></div>
                 <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                     {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
                         <MediaRail key={i} nsfw={car.nsfw} repoName={car.repo} openDir={this.openDirHandler} media={car.media} repoId={car.hashId} openMedia={this.openMedia}>

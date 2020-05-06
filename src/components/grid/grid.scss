@@ -220,3 +220,10 @@ max-width: 230px;
      }
 
 }
+
+
+.grid-container-menu{
+   display: flex;
+   flex-flow: row;
+   flex-direction: row-reverse;
+}

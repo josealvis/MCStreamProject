@@ -1,16 +1,5 @@
-$break-small: 450px;
+$break-small: 450px ;
 $break-large: 1200px;
-
-// .profile-pic {
-//   float: left;
-//   width: 250px;
-//   @media screen and (max-width: $break-small) {
-//     width: 100px;
-//     float: none;
-//   }
-//   @media screen and (min-width: $break-large) {
-//     float: right;
-//   }
 
 .action-btn{
     @media screen and (max-width: $break-small) {
@@ -26,27 +15,24 @@ $break-large: 1200px;
     justify-content: space-between;
     display: flex;
     @media screen and (max-width: $break-small) {
-        min-height: none;
-             
+        min-height: 0;
+        padding: 10px;
+        
           }
     
 }
-
 .mid-content{
-
-}
-
-
-.search-box{
-    width: 600px;
     @media screen and (max-width: $break-small) {
         display: none !important;
         float: none;
      }
 }
 
-.search-box-container{
+
+.search-box{
+    width: 600px;
     @media screen and (max-width: $break-small) {
-        display: none !important;
+        width: 100%;
      }
 }
+
