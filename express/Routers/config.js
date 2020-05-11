@@ -1,4 +1,5 @@
 let express = require('express');
+var qr = require('qr-image');  
 let router = express.Router();
 var path = require('path')
 var rd = require('../services/mediaFile');
@@ -38,5 +39,13 @@ router.post('/deletePath', function (req, res) {
   let data = req.body
   mediaRepo.deleteMediaPath(data.path);
 })
+
+
+router.get('/Qr', function(req, res) {  
+  let host = getLocalIp()[0]+":4000";
+  var code = qr.image(host, { type: 'svg' });
+  res.type('svg');
+  code.pipe(res);
+});
 
 module.exports = router;

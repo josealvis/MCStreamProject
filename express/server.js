@@ -33,3 +33,5 @@ var server = app.listen(port, function () {
     var host = getLocalIp()[0];
     console.log('Access to de app throught localHost:'+port+' or '+ host+":"+port);
 });
+
+

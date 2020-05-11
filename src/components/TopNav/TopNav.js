@@ -1,4 +1,5 @@
 import React from 'react';
+//https://github.com/zpao/qrcode.react
 import QRCode from "qrcode.react";
 import axios from 'axios';
 
