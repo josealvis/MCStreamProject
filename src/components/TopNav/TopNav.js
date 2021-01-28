@@ -12,8 +12,6 @@ import ct from '../../helpers/constants'
 
 import { Link } from "react-router-dom";
 
-
-
 export class TopNav extends React.Component {
 
     constructor(props) {
@@ -29,7 +27,6 @@ export class TopNav extends React.Component {
                 scope.setState({ localHost: response.data })
             });
     }
-
     render() {
         return (
             <div className="top-nav-container">
@@ -48,7 +45,6 @@ export class TopNav extends React.Component {
                         <QRCode level="Q" value={"http://" + this.state.localHost}
                             size='60'
                         />
-                        {/* <span>{this.state.localHost}</span> */}
                     </div>
                 </div>
 

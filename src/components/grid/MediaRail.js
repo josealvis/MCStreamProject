@@ -108,7 +108,6 @@ export class MediaRail extends React.Component {
     refCallBack(el) {
         if (el) {
             let elements = this.state.elements;
-            //el.hide = () => !this.props.nsfwMode && el.props.fileData.nsfw;
             elements.push(el)
             this.setState({ elements });
         }
