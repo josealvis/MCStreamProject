@@ -46,7 +46,6 @@ export class GridItem extends React.Component {
             <div className="grid-media-card-container">
             <div className={"grid-media-card " + this.props.className} tabIndex={this.props.tabIndex} onClick={this.clickHandle} ref={this.myRef}  >
                 <div className={"media-img "+(!this.state.ThumbnailIsReady?"full-width":"")}>
-                    {/* <div className="grid-card-title" alt={this.props.title.substring(0, 40)}><span>{this.props.title.substring(0, 10)} </span></div> */}
                     {this.state.ThumbnailIsReady ?
                         <img alt={this.props.title.substring(0, 40)} src={this.props.img} /> :
                         <div className="snipper"><Spinner animation="grow" variant="info" /></div>}

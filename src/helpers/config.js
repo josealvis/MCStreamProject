@@ -7,14 +7,11 @@ class config {
         this.prodHost ='http://10.0.0.2:4000';
     }
 
-    
-
     getHostName(){
         if(process.env.NODE_ENV === 'production'){
             return this.prodHost;
         }else return this.localHost;
     }
-
 }
 
 

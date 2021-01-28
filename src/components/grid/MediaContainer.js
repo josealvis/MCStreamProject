@@ -69,7 +69,7 @@ export class MediaContainer extends React.Component {
     }
 
     paginationHandler(pageNumber) {
-        let total = this.state.totalPages;//Math.ceil(this.props.media.length / this.PAGE_ELEMENT);
+        let total = this.state.totalPages;
         let starAt = pageNumber - 1;
         if (pageNumber > 0 && pageNumber <= total) {
             this.setState({ currentPage: pageNumber });
@@ -113,7 +113,6 @@ export class MediaContainer extends React.Component {
     refCallBack(el) {
         if (el) {
             let elements = this.state.elements;
-            //el.hide = () => !this.props.nsfwMode && el.props.fileData.nsfw;
             elements.push(el)
             this.setState({ elements });
         }

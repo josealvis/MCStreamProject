@@ -23,7 +23,6 @@ export var storage = {
     //deprecated
     setComponentScope,
     bindComponentToStorage: setComponentScope
-
 };
 
 

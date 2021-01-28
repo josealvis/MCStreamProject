@@ -4,14 +4,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import HomeIcon from '@material-ui/icons/Home';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-
 import { IconButton } from '@material-ui/core';
 import { SearchBox } from '../SearchBox/SearchBox';
-import ct from '../../helpers/constants'
-
 import { Link } from "react-router-dom";
-
-
 
 export class MobileNav extends React.Component {
 
@@ -29,7 +24,6 @@ export class MobileNav extends React.Component {
     toggleSearchBox() {
         this.setState({ showSearch: !this.state.showSearch });
     }
-
 
     render() {
         return (

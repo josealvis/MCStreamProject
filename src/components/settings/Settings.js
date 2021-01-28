@@ -71,14 +71,6 @@ export class Settings extends React.Component {
         this.state.path.path = this.state.path.path.replace(/\\/g, '/')
         this.state.configObj.paths.push(this.state.path);
         this.setState({ configObj: this.state.configObj });
-
-        // axios.post('/addPath', this.state.path)
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
     }
 
     getFolderPaths() {
