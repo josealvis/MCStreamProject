@@ -9,10 +9,18 @@ class mediaRepo {
         this._configPath = cfp ? cfp : configPath;
     }
 
-    getMediaPaths() {
-        let rawdata = fs.readFileSync(this._configPath);
-        let data = JSON.parse(rawdata);
-        return data.mediaPaths;
+    getMediaPaths() {  
+        let rawdata = {};
+        try {
+            rawdata =  fs.readFileSync(this._configPath);
+            let data = JSON.parse(rawdata);
+            return data.mediaPaths;
+          } catch (error) {
+            // if _configPath do not exist create one
+            fs.writeFileSync(this._configPath,'{"mediaPaths":[]}');
+            return {"mediaPaths":[]};
+          }
+          
     }
 
     addMediaPath(path, displayName = "", nsfw = 0) {

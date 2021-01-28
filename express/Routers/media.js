@@ -11,9 +11,7 @@ var rp = require('../repos/mediaRepo');
 var mediaRepo = new rp();
 
 router.get('/getData', function (req, res) {
-  //let mediaList = [];
-  //let mediaPaths = mediaRepo.getMediaPaths();
-
+  
   let mediahash = req.query.mediahash;
   const path = conf.mediaObjectMapper.getMediabyIdhash(mediahash).path;
   const stat = fs.statSync(path)
