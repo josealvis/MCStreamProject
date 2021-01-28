@@ -1,0 +1,38 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug express",
+            "program": "${workspaceFolder}/express/server.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "React-debugger",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}/src"
+        },
+        {
+            "name": "Express-debugger",
+            "type": "node",
+            "request": "launch",
+            "port": 4000,
+            "program": "${workspaceRoot}/express/server.js",
+            "stopOnEntry": true,
+            "args": [],
+            "cwd": "${workspaceRoot}/express/",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "development"
+            },
+        }
+
+    ]
+}
