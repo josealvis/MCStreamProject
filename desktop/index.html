@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+    
+    <div class="container center">
+        <div class="row ">
+            <div class="col-6 mx-auto d-block ">
+                <h1>Content is Online</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6  mx-auto d-block ">
+                <img class="rounded col-12" id="qr-code" src="" >
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-4  mx-auto d-block ">
+                <span id="ip-url"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6  mx-auto d-block ">
+                <button onclick="openExternal()" type="button" class="btn btn-success col-12 "> OPEN IN BROWSER</button>
+            </div>
+        </div>
+    </br>
+
+
+    </div>
+
+
+    <script src="index.js"></script>
+</body>
+
+</html>
