@@ -1,38 +1,40 @@
 import React from 'react';
-//import foldericon from '../../icons/folder_open-24px.svg';
 import { Spinner } from 'react-bootstrap';
-
 import axios from 'axios';
 
 export class GridItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { tumbnailIsReady: false }
+        this.deadCallCount = 0;
+        this.state = { ThumbnailIsReady: false }
+        this.thumbNailHasBeenCalled = false;
         this.clickHandle = this.clickHandle.bind(this);
-        this.tumbNailIsReadyHandle = this.tumbNailIsReadyHandle.bind(this);
+        this.myRef = React.createRef();
+        this.focusElement = this.focusElement.bind(this);
+        this.generateThumbnail = this.generateThumbnail.bind(this);
+    }
+
+    focusElement() {
+        this.myRef.current.focus();
     }
 
     componentDidMount() {
-        var tumbnailIsReady = setInterval(() => {
-            if (!this.state.tumbnailIsReady) {
-                this.tumbNailIsReadyHandle();
-            }
-            else {
-                clearInterval(tumbnailIsReady);
-            };
-        }, 1000);
+        this.generateThumbnail();
     }
 
-    tumbNailIsReadyHandle() {
-        var scope = this;
-        axios.get(this.props.img)
+    generateThumbnail() {
+        let scope = this;
+        if(!this.state.ThumbnailIsReady){
+        axios.post('/generateThumbnail', { hashId: this.props.fileData.hashId })
             .then(function (response) {
-                // handle success
-                if (response.status === 200) {
-                    scope.setState({ tumbnailIsReady: true })
-                }
+                scope.thumbNailHasBeenCalled = true;
+                scope.setState({ ThumbnailIsReady: true })
             })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 
     clickHandle() {
@@ -41,11 +43,16 @@ export class GridItem extends React.Component {
 
     render() {
         return (
-            <div className="gid-media-card" onClick={this.clickHandle}>
-                <div className="grid-card-title"><span>{this.props.title.substring(0, 40)} </span></div>
-                {this.state.tumbnailIsReady ?
-                    <img alt={this.props.title.substring(0, 40)} className="media-img" src={this.props.img} /> :
-                    <Spinner animation="grow" variant="info" />}
+            <div className="grid-media-card-container">
+            <div className={"grid-media-card " + this.props.className} tabIndex={this.props.tabIndex} onClick={this.clickHandle} ref={this.myRef}  >
+                <div className={"media-img "+(!this.state.ThumbnailIsReady?"full-width":"")}>
+                    {/* <div className="grid-card-title" alt={this.props.title.substring(0, 40)}><span>{this.props.title.substring(0, 10)} </span></div> */}
+                    {this.state.ThumbnailIsReady ?
+                        <img alt={this.props.title.substring(0, 40)} src={this.props.img} /> :
+                        <div className="snipper"><Spinner animation="grow" variant="info" /></div>}
+                </div>
+            </div>
+            <div className="grid-card-title-under" alt={this.props.title}><span>{this.props.title.substring(0,35)} </span></div>
             </div>
         );
     }

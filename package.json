@@ -2,6 +2,7 @@
   "name": "mc-stream",
   "version": "0.1.0",
   "description": "",
+  "main": "desktop/main.js",
   "bin": "express/server.js",
   "author": "anybody",
   "license": "MIT",
@@ -16,8 +17,12 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
+    "materialize-css": "^1.0.0-rc.2",
+    "node-sass": "^4.14.0",
     "normalize.css": "^8.0.1",
     "proxyquire": "^2.1.3",
+    "qr-image": "^3.2.0",
+    "qrcode.react": "^1.0.0",
     "react": "^16.11.0",
     "react-app-polyfill": "^1.0.4",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -25,10 +30,12 @@
     "react-player": "^1.14.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "sweetalert": "^2.1.2",
     "video-react": "^0.14.1"
   },
   "scripts": {
     "start": " react-scripts start",
+    "start-electron": "electron  .",
     "start-express": "nodemon express/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "electron": "^8.2.5",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4"
   },

@@ -1,11 +1,14 @@
 import React from 'react';
-import './style.css';
+//https://github.com/zpao/qrcode.react
+import QRCode from "qrcode.react";
+import axios from 'axios';
+
+import './style.scss';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Divider from '@material-ui/core/Divider';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
-import SearchIcon from '@material-ui/icons/Search';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { IconButton, TextField } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import { SearchBox } from '../SearchBox/SearchBox';
+import ct from '../../helpers/constants'
 
 import { Link } from "react-router-dom";
 
@@ -13,34 +16,42 @@ import { Link } from "react-router-dom";
 
 export class TopNav extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state = { localHost: "" }
+    }
+
+    componentDidMount() {
+        let scope = this;
+        axios.get('/getLocalHost')
+            .then(function (response) {
+                console.log(response);
+                scope.setState({ localHost: response.data })
+            });
+    }
+
     render() {
         return (
             <div className="top-nav-container">
-                <h2>APP name</h2>
+                <h2>{ct.APP_NAME}</h2>
                 <div className="mid-content">
-                    <form noValidate autoComplete="off">
-                        <TextField className="search-box" id="standard-basic" placeholder="Search" variant="outlined"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Divider orientation="vertical" />
-                                        <IconButton  color="primary" aria-label="directions">
-                                            <SearchIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                    <SearchBox />
+                </div>
+                <div className="action-btn">
+                    <IconButton color="primary" aria-label="">
+                        <Link to="/grid" ><VideoLibraryIcon /></Link>
+                    </IconButton>
+                    <IconButton color="primary" aria-label="">
+                        <Link to="/settings" ><SettingsIcon /></Link></IconButton>
 
-                    </form>
+                    <div className="qr-container">
+                        <QRCode level="Q" value={"http://" + this.state.localHost}
+                            size='60'
+                        />
+                        {/* <span>{this.state.localHost}</span> */}
+                    </div>
                 </div>
-                <div>
-                    <IconButton  color="primary" aria-label="">
-                    <Link to="/grid" ><VideoLibraryIcon /></Link>
-                        </IconButton>
-                    <IconButton  color="primary" aria-label="">
-                    <Link to="/settings" ><SettingsIcon /></Link></IconButton>
-                </div>
+
             </div>
         );
     }

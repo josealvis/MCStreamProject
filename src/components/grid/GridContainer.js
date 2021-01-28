@@ -1,12 +1,13 @@
 import React from 'react';
+import { storage } from '../../helpers/storage';
 
-import './grid.css'
+import './grid.scss'
 import axios from 'axios';
 
-import { GridItem } from './GridItem';
+import { MediaRail } from './MediaRail';
+import { MediaContainer } from './MediaContainer';
 import { VideoPlayer } from '../VideoPlayer/VideoPlayer';
 
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
@@ -15,37 +16,50 @@ export class GridContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        storage.bindComponentToStorage("GridContainerStates",this);
         this.state = {
             mediaList: [],
+            mediaDir: [],
+            mediaDirName:"",
             idHash: '',
             videoTitle: '',
             modal: false,
             rowNum: 1,
-            nsfw: false
+            nsfw: false,
+            selectedCardId: "",
+            elements: [],
+            tabIndex: -1,
+            mediaContainerMode: false,
         };
+
+        
         this.openMedia = this.openMedia.bind(this);
         this.nsfwToggle = this.nsfwToggle.bind(this);
+        this.setMediaStates = this.setMediaStates.bind(this);
+        this.nsfwStateHandler = this.nsfwStateHandler.bind(this);
+        this.openDirHandler = this.openDirHandler.bind(this);
     }
 
     getData(scope) {
-        axios.get('/getMediaList/?rowNum=' + this.state.rowNum)
+        axios.get('/getDataObject')
             .then(function (response) {
-                // handle success
-                scope.setState({ mediaList: response.data })
+                storage.setRepos(response.data);
+                scope.nsfwStateHandler();
             })
     }
 
     componentDidMount() {
         this.getData(this);
-
-        //this.setState({ mediaList: "this.res" })
     }
 
-    openMedia(vidMetaData) {
+    setMediaStates(vidMetaData) {
         this.setState({ idHash: vidMetaData.hashId });
         this.setState({ videoTitle: vidMetaData.name });
-        this.setState({ modal: true });
+    }
 
+    openMedia(vidMetaData, modal = true) {
+        if (vidMetaData !== undefined) this.setMediaStates(vidMetaData);
+        this.setState({ modal });
     }
 
     closeMediaHandle() {
@@ -53,35 +67,66 @@ export class GridContainer extends React.Component {
         this.setState({ modal: false });
     }
 
+    nsfwStateHandler() {
+        let nsfw = this.state.nsfw;
+        let repos = storage.getRepos();
+        this.setState({ mediaList: repos })
+    }
+
     nsfwToggle() {
-        this.setState({ nsfw: !this.state.nsfw });
+        let nsfw = !this.state.nsfw;
+        storage.nsfwMode = nsfw;
+        this.setState({ nsfw }, this.nsfwStateHandler);
+    }
+
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.setState({ modal: true });
+        }
+    }
+
+    openDirHandler(hashId) {
+        // it should be an Id insted of repo
+        let repo = this.state.mediaList.find(el => el.hashId === hashId);
+        if (repo.media !== undefined) this.setState({ mediaDir:repo.media },()=>{
+            this.setState({ mediaContainerMode: true });
+            this.setState({ mediaDirName: repo.repo  });
+        })
+ 
+    }
+
+    gohome() {
+        this.setState({ mediaContainerMode: false })
     }
 
     render() {
         return (
-            <div>
+            <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
                 <VideoPlayer videohash={this.state.idHash}
                     isOpen={this.state.modal}
                     closeModal={() => this.closeMediaHandle()}
                     title={this.state.videoTitle} />
-                <FormControlLabel
+                <div className="grid-container-menu">
+                <FormControlLabel 
                     control={
                         <Switch checked={this.state.nsfw} onChange={this.nsfwToggle} value="" />
                     }
                     label="NSFW mode"
-                />
-                <div className="grid-container">
-                    {this.state.mediaList.map((el) => (<>{!el.nsfw || this.state.nsfw?<GridItem
-                        key={el.hashId.toString()}
-                        callback={this.openMedia}
-                        hashId={el.hashId}
-                        fileData={el}
-                        img={el.tumbnail}
-                        title={el.name}
-                    /> :<></>}
-                    </>))}
+                /></div>
+                <div className="media-grid-container" onKeyPress={this.handleKeyPress.bind(this)}>
+                    {!this.state.mediaContainerMode ? this.state.mediaList.map((car, i) => (
+                        <MediaRail key={i} nsfw={car.nsfw} repoName={car.repo} openDir={this.openDirHandler} media={car.media} repoId={car.hashId} openMedia={this.openMedia}>
+                        </MediaRail>)) : <></>}
+                    {this.state.mediaContainerMode && this.state.mediaList[0] ? <MediaContainer
+                        nsfwMode={true}
+                        goBackFn={this.gohome.bind(this)}
+                        media={this.state.mediaDir}
+                        repoName={this.state.mediaDirName}
+                        openMedia={this.openMedia}>
+                    </MediaContainer> : <></>}
+
                 </div>
-            </div>
+            </div >
         );
     }
 }

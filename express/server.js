@@ -1,4 +1,5 @@
 var express = require('express');
+var {getLocalIp} = require('./core/helper');
 var cors = require('cors');
 var path = require('path');
 var app = express();
@@ -6,7 +7,7 @@ var app = express();
 var mediaRouter = require('./Routers/media');
 var configRouter = require('./Routers/config');
 
-var  loggerMiddlewere = (req, res, next)=> {console.log("Api called!"); next();};
+var  loggerMiddlewere = (req, res, next)=> {/*console.log("Api called!");*/ next();};
 
 app.use(cors());
 app.use(loggerMiddlewere);
@@ -28,6 +29,9 @@ app.get('*', (req,res) =>{
 });
 
 const port = process.env.PORT || 4000;
-app.listen(port, function () {
-    console.log('the app is running in localHost:'+port);
-  });
+var server = app.listen(port, function () {
+    var host = getLocalIp()[0];
+    console.log('Access to de app throught localHost:'+port+' or '+ host+":"+port);
+});
+
+
