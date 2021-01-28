@@ -18,8 +18,12 @@
 .env.test.local
 .env.production.local
 
-/express/tumbnails/
+/express/thumbnails/
+/express/core/config.json
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+debug.log
+
+express/core/config.json

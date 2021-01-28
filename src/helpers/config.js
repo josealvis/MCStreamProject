@@ -1,6 +1,4 @@
 
-
-
 class config {
    
     constructor(){
@@ -14,7 +12,6 @@ class config {
             return this.prodHost;
         }else return this.localHost;
     }
-
 }
 
 
