@@ -1,5 +1,5 @@
 
 const suportExt = ['.mp4', '.mkv'];
-const nsfwWords = ['nsfw', 'eporner'];
+const nsfwWords = ['nsfw'];
 
 module.exports = {suportExt, nsfwWords}

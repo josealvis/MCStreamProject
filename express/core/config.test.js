@@ -1,9 +1,6 @@
 let  config = require('./config');
 let mockData = require('../../test/mockData');
 
-
-
-
 test("It should return data", ()=>{
     config.mediaObjectMapper.mediaObject =  mockData.generateDummyData(3,6);
     let data  = config.mediaObjectMapper.getMediabyIdhash("rp1m1");
