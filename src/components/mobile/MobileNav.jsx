@@ -15,6 +15,8 @@ export class MobileNav extends React.Component {
         this.state = {
             showSearch: false
         }
+        this.toggleSearchBox = this.toggleSearchBox.bind(this);
+        this.closeSearchBox =this.closeSearchBox.bind(this);
     }
 
     closeSearchBox() {
@@ -22,14 +24,14 @@ export class MobileNav extends React.Component {
     }
 
     toggleSearchBox() {
-        this.setState({ showSearch: !this.state.showSearch });
+        this.setState(state=>({ showSearch: !state.showSearch }));
     }
 
     render() {
         return (
             <>
                 {this.state.showSearch? <div className="search-container">
-                    <span onClick={this.closeSearchBox.bind(this)} className="close-btn">
+                    <span onClick={this.closeSearchBox} className="close-btn">
                         <HighlightOffIcon />
                     </span>
                     <h4>Write somthing</h4>
@@ -39,7 +41,7 @@ export class MobileNav extends React.Component {
                     <IconButton aria-label="">
                         <Link to="/grid" ><HomeIcon /></Link>
                     </IconButton>
-                    <IconButton aria-label="" onClick={this.toggleSearchBox.bind(this)}>
+                    <IconButton aria-label="" onClick={this.toggleSearchBox}>
                         <SearchIcon /></IconButton>
                     <IconButton aria-label="">
                         <Link to="/settings" ><SettingsIcon /></Link></IconButton>

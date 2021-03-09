@@ -74,9 +74,12 @@ export class GridContainer extends React.Component {
     }
 
     nsfwToggle() {
-        let nsfw = !this.state.nsfw;
-        storage.nsfwMode = nsfw;
-        this.setState({ nsfw }, this.nsfwStateHandler);
+        //TODO: this storage  needs a code refactor
+        this.setState(state=>{
+            let nsfw = !state.nsfw;
+            storage.nsfwMode = nsfw;
+            return { nsfw }
+        }, this.nsfwStateHandler);
     }
 
     handleKeyPress = (event) => {
@@ -86,7 +89,7 @@ export class GridContainer extends React.Component {
     }
 
     openDirHandler(hashId) {
-        // it should be an Id insted of repo
+        // TODO:it should be an Id insted of repo
         let repo = this.state.mediaList.find(el => el.hashId === hashId);
         if (repo.media !== undefined) this.setState({ mediaDir:repo.media },()=>{
             this.setState({ mediaContainerMode: true });

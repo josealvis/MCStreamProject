@@ -1,3 +1,4 @@
+//TODO: refactor this storage aproach
 export var storage = {
     appStates: {
         getComponentScope: function (componentName) {

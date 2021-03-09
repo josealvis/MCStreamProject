@@ -27,3 +27,4 @@ yarn-error.log*
 debug.log
 
 express/core/config.json
+express/core/config.json

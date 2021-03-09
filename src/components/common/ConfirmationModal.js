@@ -14,7 +14,7 @@ export class CofirmationModal extends React.Component {
     }
 
     onClickHandler() {
-        this.setState({ modalIsOpen: !this.state.modalIsOpen });
+        this.setState((state)=>({ modalIsOpen: !state.modalIsOpen }));
     }
 
     close() {
